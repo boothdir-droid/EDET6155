@@ -19,7 +19,6 @@
     line-height: 1.6;
   }
 
-  /* Header Banner */
   .header {
     background: var(--esu-blue);
     color: white;
@@ -30,7 +29,6 @@
   .header h1 {
     margin: 0;
     font-size: 2rem;
-    letter-spacing: 0.5px;
   }
 
   .header .subtitle {
@@ -39,7 +37,6 @@
     color: var(--esu-gold);
   }
 
-  /* Grid of Cards */
   .grid {
     max-width: 1100px;
     margin: 2rem auto;
@@ -95,29 +92,26 @@
   <div class="subtitle">Peter’s Class Project Page – Empire State University</div>
 </div>
 
-<div class="grid" id="card-grid">
-  <!-- Cards auto‑generated here -->
-</div>
+<div class="grid" id="card-grid"></div>
 
 <div class="footer">
   Hosted on GitHub Pages • EDET 6155 • Empire State University
 </div>
 
 <script>
-// Repo info
+// Repo info for the NEW course site
 const repoOwner = "boothdir-droid";
-const repoName = "EDET6130"; // Change if you create a separate repo for 6155
+const repoName = "EDET6155";
 
-// Default thumbnail (replace with a branded AI-themed image if you want)
+// Default thumbnail
 const defaultThumb = "https://via.placeholder.com/600x400?text=EDET+6155";
 
-// Fetch repo contents
-fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/EDET6155/`)
+// Fetch repo root contents
+fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/`)
   .then(response => response.json())
   .then(files => {
     const grid = document.getElementById("card-grid");
 
-    // Filter HTML files except index.html
     const htmlFiles = files.filter(f =>
       f.name.endsWith(".html") && f.name !== "index.html"
     );
@@ -125,7 +119,6 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/EDET6155/`
     htmlFiles.forEach(file => {
       const baseName = file.name.replace(".html", "");
 
-      // Try to find a matching thumbnail (same name, .png or .jpg)
       const thumbFile = files.find(img =>
         img.name.startsWith(baseName) &&
         (img.name.endsWith(".png") || img.name.endsWith(".jpg"))
@@ -133,7 +126,6 @@ fetch(`https://api.github.com/repos/${repoOwner}/${repoName}/contents/EDET6155/`
 
       const thumbUrl = thumbFile ? thumbFile.download_url : defaultThumb;
 
-      // Build card
       const card = document.createElement("div");
       card.className = "card";
 
