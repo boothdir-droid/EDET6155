@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom AV Hardware Reliability & AI Remediation Project Design Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+            color: #1E293B;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 650px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 380px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 360px;
+            }
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-red-500 selection:text-white">
+
+    <header class="bg-slate-900 text-white border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <div class="flex items-center space-x-3">
+                    <span class="text-2xl">⚡</span>
+                    <div>
+                        <span class="font-extrabold text-lg tracking-tight block">AV REMEDIATION</span>
+                        <span class="text-xs text-slate-400 block -mt-1">Project Design Report &amp; Infographic</span>
+                    </div>
+                </div>
+                <div class="hidden lg:flex items-center space-x-8 text-sm font-medium text-slate-300">
+                    <a href="#summary" class="hover:text-red-500 transition-colors">Executive Summary</a>
+                    <a href="#lxd" class="hover:text-red-500 transition-colors">Learning Design</a>
+                    <a href="#specs" class="hover:text-red-500 transition-colors">Design Specs</a>
+                    <a href="#timeline" class="hover:text-red-500 transition-colors">Timeline</a>
+                    <a href="#evaluation" class="hover:text-red-500 transition-colors">Evaluation Plan</a>
+                    <a href="#playground" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-all shadow-md">Interactive Agent</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="bg-slate-950 text-white py-12 px-4 border-b border-slate-900">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-8">
+                <span class="bg-red-500 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full">EDET 6155 - Empire State University</span>
+                <h1 class="text-4xl sm:text-5xl font-black mt-4 leading-tight">AV Fundamentals for Educators</h1>
+                <p class="text-slate-400 text-lg mt-3 max-w-2xl">
+                    A data-driven project design report by Peter Thomas examining presentation hardware disruptions and real-time AI remediation.
+                </p>
+                <div class="flex flex-wrap gap-4 mt-6 text-sm text-slate-300 font-mono">
+                    <div class="bg-slate-900 px-4 py-2 rounded-lg border border-slate-800">
+                        <span class="text-red-500 font-bold">Uptime Target:</span> +9.0% recovered hours
+                    </div>
+                    <div class="bg-slate-900 px-4 py-2 rounded-lg border border-slate-800">
+                        <span class="text-red-500 font-bold">Scope:</span> Bounded Hardware only
+                    </div>
+                    <div class="bg-slate-900 px-4 py-2 rounded-lg border border-slate-800">
+                        <span class="text-red-500 font-bold">Methodology:</span> Decoupled AI Sandbox
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-4 grid grid-cols-2 gap-4">
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 text-center">
+                    <span class="text-4xl block mb-2">⏳</span>
+                    <span class="text-3xl font-black text-red-500 block">200+</span>
+                    <span class="text-xs text-slate-400 uppercase font-semibold">Hours Lost/Yr/School</span>
+                </div>
+                <div class="bg-slate-900 p-5 rounded-xl border border-slate-800 text-center">
+                    <span class="text-4xl block mb-2">📊</span>
+                    <span class="text-3xl font-black text-red-500 block">50</span>
+                    <span class="text-xs text-slate-400 uppercase font-semibold">Stratified Scenarios</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-7 space-y-12">
+                
+                <section id="summary" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="text-3xl">📌</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Section 1. Executive Summary</h2>
+                    </div>
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <p class="font-medium text-slate-800 border-l-4 border-red-500 pl-4">
+                            <strong>Problem Overview:</strong> Routine presentation technology failures in classroom settings present a persistent, systemic threat to instructional continuity, consuming up to nine percent of planned learning time, which translates to over two hundred hours of academic downtime per school annually. Findings from current educational technology literature demonstrate that while educators possess profound pedagogical capabilities, they are rarely equipped with fundamental diagnostic skills regarding physical presentation hardware and local device configuration settings, such as mismatched resolutions, aspect ratios, or broken signal paths. Gaps in traditional administrative systems compound this issue, as schools rely almost exclusively on lagging IT ticketing support mechanisms or purely software-focused workshops that fail to teach a teacher how to physically diagnose a hardware handshake failure.
+                        </p>
+                        <p>
+                            <strong>Proposed Solution and Innovation:</strong> To actively mitigate this classroom loss, this project introduces an AI-enhanced professional development curriculum paired with an interactive, real-time AI FAQ troubleshooting agent. Rooted in Bandura's self-efficacy theory and the Technological Pedagogical Content Knowledge (TPACK) framework, our approach empowers teachers to address physical interface errors immediately rather than succumbing to performance anxiety or technology avoidance. This dual-force intervention bridges the gap by translating complex, technical AV engineering parameters into localized, plain-language troubleshooting steps that teachers can instantly execute during a live lesson.
+                        </p>
+                        <p>
+                            <strong>Expected Impact and Benefits:</strong> The proposed system establishes predictable teacher self-efficacy, converting technical helplessness into instructional agency and allowing schools to reclaim vital, compromised learning minutes. Furthermore, this localized model supports digital equity and accessibility across resource-constrained schools where dedicated IT support technicians are heavily backlogged or entirely absent. On an institutional scale, by earning a targeted SUNY CPD digital micro-credential badge, teachers form a highly resilient first line of technological defense, preserving the environmental trust necessary to utilize modern media assets.
+                        </p>
+                        <p>
+                            <strong>Implementation Approach:</strong> The development process utilizes the robust ADDIE instructional design framework to systematically analyze, design, and validate the troubleshooting curriculum and accompanying AI tooling. Crucially, to test this implementation without putting live learners at risk, the project employs a decoupled, multi-platform AI sandbox loop to evaluate efficacy and prevent developer bias: Microsoft Copilot architects the training outline, Google Gemini simulates fifty randomized real-world hardware failure scenarios across five grade-level bands, and Anthropic Claude serves as an independent, blind evaluator to score time-recovery potential based on a modified Kirkpatrick framework.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="lxd" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="text-3xl">📐</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Section 2. Learning Experience Design (LXD)</h2>
+                    </div>
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <p>
+                            <strong>The Learner Journey:</strong> Educators embark on their professional development path by accessing a micro-learning portal dedicated to physical classroom AV operations. Upon entering, learners navigate modular, high-contrast visual guides focusing on three fundamental technical domains: physical cable identification, port interfaces, and device output configuration settings. During critical moments of live instruction when display glitches occur, educators transition to using the conversational AI FAQ troubleshooting agent, utilizing natural, colloquial language to describe symptoms, receiving step-by-step diagnostic feedback on their phones or tablets. Progression is structured through diagnostic scenarios of increasing complexity, culminating in simulated terminal challenges that reward teachers with a SUNY CPD digital badge upon demonstrating complete technical self-reliance.
+                        </p>
+                        <p>
+                            <strong>The Pedagogical Design Elements:</strong> The learning design integrates experiential learning models and cognitive scaffolding to ensure physical competencies transfer smoothly to stressful, live classroom environments. By mapping the curriculum directly to standard ISTE educator guidelines, the design validates technical troubleshooting as an essential professional competency. To accommodate diverse user needs, the curriculum incorporates Universal Design for Learning (UDL) principles, presenting troubleshooting parameters through multi-modal representations including structured text, diagrammatic signal pathways, and conversational audio feedback.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="specs" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="text-3xl">⚙️</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Section 3. Design Specs</h2>
+                    </div>
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <p>
+                            <strong>AI Integration and Functionality:</strong> This system integrates generative AI across three distinct operational layers to maintain objective validation metrics and deliver robust interactive experiences. During the development phase, Microsoft Copilot defines the structural curriculum, while Google Gemini translates specialized AV engineering data into exactly 50 grade-stratified, physical-only failure scenarios across five cohorts: K-2, 3-5, 6-8, 9-12, and Higher Education. In the runtime environment, the conversational AI FAQ agent uses a highly restricted retrieval-augmented generation (RAG) framework, matching user input terms (such as "projector blinking" or "purple screen") to locked, verified technical solutions while entirely suppressing hallucinations.
+                        </p>
+                        <p>
+                            <strong>Ethical Considerations of Data and Privacy:</strong> Data protection protocols are strictly mapped to ensure no personally identifiable information (PII) or student metadata is ever ingested by the AI models. The system logs only anonymized technical error parameters and diagnostic pathways to identify patterns of structural failure across campus environments. To guarantee continuity during network outages, a localized, physical quick-reference card system acts as a manual fallback. If the AI agent exhausts its troubleshooting matrix without resolving the issue, it triggers an automatic escalation protocol, generating an immediate IT helpdesk ticket containing the precise diagnostic steps already performed to minimize human technician intervention latency.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="timeline" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="text-3xl">📅</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Section 4. Implementation Timeline</h2>
+                    </div>
+                    <p class="text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <strong>Implementation Timeline:</strong> We will engage in rapid prototype development next week, building out our primary course structure and launching the conversational agent interface to establish the initial diagnostic platform. Following this, the project enters full implementation in week 5, executing the automated cross-platform sandbox loop by passing the 50 grade-stratified failure scenarios through our AI testing matrices to gauge baseline resolution times. Finally, we will conclude with iteration and evaluation in week 6, processing the analytical outputs through Anthropic Claude to determine the final system efficacy scores, identify any cohort-specific trends, and prepare the definitive research report for administrative review.
+                    </p>
+                </section>
+
+                <section id="evaluation" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
+                    <div class="flex items-center space-x-3 mb-6">
+                        <span class="text-3xl">🎯</span>
+                        <h2 class="text-2xl font-black text-slate-900 tracking-tight">Section 5. Evaluation Plan</h2>
+                    </div>
+                    <div class="space-y-6 text-slate-600 leading-relaxed text-sm sm:text-base">
+                        <p>
+                            <strong>Success Criteria:</strong> System performance is quantified using a multi-layered framework designed to measure both execution reliability and pedagogical impact across classrooms. The chief target metric is an 85% or higher complete resolution rate (achieving a score of 3 on our time-recovery rubric) across all 50 simulated scenarios. Additionally, we track key performance indicators including average time-to-resolution (striving for under 120 seconds), a reduction in repeat IT helpdesk tickets for identical physical failures, and an increase in teacher comfort levels. A critical limitation of this simulated testing framework is that while it accurately validates technical logic, it cannot account for real-world variables such as physical motor skill deficits or human-induced physical damage.
+                        </p>
+                        <p>
+                            <strong>Metrics and Data Collection:</strong> Due to systemic time constraints, we will plan for evaluation and establish the metrics infrastructure, but will not collect live learner data. The analytical models will log quantitative performance variables such as baseline versus post-remediation resolution times, categorical resolution rates across the 5 cohorts, and escalation frequencies for unresolvable errors. For qualitative insights, we have designed feedback loops including diagnostic transcripts and immediate, post-resolution user satisfaction surveys. These combined metrics will be compiled into clear comparative charts, providing institutional decision-makers with a highly visible, empirical argument for widespread training adoption.
+                        </p>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="lg:col-span-5 space-y-8">
+                
+                <div class="bg-slate-900 text-white rounded-2xl p-6 shadow-xl border border-slate-800 sticky top-20">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-800 mb-6">
+                        <h3 class="text-lg font-bold tracking-tight text-red-500 uppercase">Interactive Dashboard</h3>
+                        <span class="bg-slate-800 text-xs px-2.5 py-1 rounded text-slate-300 font-mono font-bold">LIVE STATS</span>
+                    </div>
+
+                    <div class="space-y-6">
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Cohort Scenario Distribution</h4>
+                            <div class="chart-container">
+                                <canvas id="cohortChart"></canvas>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2 text-center">Evenly stratified dataset (10 scenarios per cohort) to maintain scientific neutrality.</p>
+                        </div>
+
+                        <div>
+                            <h4 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Failure Category Breakdown</h4>
+                            <div class="chart-container">
+                                <canvas id="categoryChart"></canvas>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-2 text-center">Quantification of primary hardware and local settings failures across the 50 instances.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="playground" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <div class="flex items-center justify-between pb-4 border-b border-slate-150 mb-6">
+                        <h3 class="text-lg font-bold text-slate-900 tracking-tight">AI Agent Simulator</h3>
+                        <span class="bg-red-100 text-red-800 text-xs px-2.5 py-1 rounded font-bold uppercase">Sandbox</span>
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-4">
+                        Select a simulated failure from the locked Gemini dataset to test the Microsoft Copilot curriculum and the AI Agent translation logic.
+                    </p>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 uppercase mb-2">Select Scenario Instance</label>
+                            <select id="scenarioSelector" class="w-full text-sm bg-slate-50 border border-slate-300 rounded-lg p-2.5 font-medium text-slate-800 focus:ring-2 focus:ring-red-500 focus:outline-none">
+                                <option value="0">Scenario 1 (K-2): Digital Phonics Calibration Drift</option>
+                                <option value="1">Scenario 3 (K-2): Purple Tint Document Camera</option>
+                                <option value="2">Scenario 12 (3-5): 4K Handshake Failure on Flat Panel</option>
+                                <option value="3">Scenario 22 (6-8): Broken VGA Red Channel Switcher</option>
+                                <option value="4">Scenario 33 (9-12): Over-driven Microphone Gain Clashing</option>
+                                <option value="5">Scenario 45 (HE): Bent USB-C Pin Restricting Alt-Mode Video</option>
+                            </select>
+                        </div>
+
+                        <button onclick="runSimulation()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold text-sm py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2 shadow-md">
+                            <span>🚀</span>
+                            <span>Run Diagnostic Simulation</span>
+                        </button>
+
+                        <div id="simulationOutput" class="hidden space-y-4 border-t border-slate-150 pt-4">
+                            <div class="bg-slate-50 p-4 rounded-lg border border-slate-200 space-y-3 text-xs font-mono">
+                                <div class="flex justify-between items-center text-slate-400 border-b border-slate-200 pb-2">
+                                    <span>SIMULATION METRICS</span>
+                                    <span id="outputCohort" class="text-red-500 font-bold"></span>
+                                </div>
+                                <p class="text-slate-700 font-sans text-sm"><strong class="block text-xs text-slate-400 font-mono">PROBLEM SYMPTOM:</strong> <span id="outputProblem"></span></p>
+                                <p class="text-slate-700 font-sans text-sm"><strong class="block text-xs text-slate-400 font-mono">AI CONVERSATIONAL TRANSLATION:</strong> <span id="outputTranslation" class="italic text-slate-800"></span></p>
+                                
+                                <div class="bg-slate-900 text-emerald-400 p-3 rounded-lg border border-slate-800 space-y-2">
+                                    <span class="block text-xs text-slate-400 font-bold uppercase tracking-wider">AI Priority Steps:</span>
+                                    <ol id="outputSteps" class="list-decimal list-inside space-y-1 font-sans text-xs text-slate-200"></ol>
+                                </div>
+
+                                <div class="grid grid-cols-2 gap-2 text-center pt-2">
+                                    <div class="bg-slate-100 p-2 rounded">
+                                        <span class="text-slate-500 block text-[10px] uppercase font-bold">Mitigation Score</span>
+                                        <span id="outputScore" class="text-lg font-black text-slate-900"></span>
+                                    </div>
+                                    <div class="bg-slate-100 p-2 rounded">
+                                        <span class="text-slate-500 block text-[10px] uppercase font-bold">Est. Time Saved</span>
+                                        <span id="outputTime" class="text-lg font-black text-emerald-600"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-200">
+                    <h3 class="text-lg font-bold text-slate-900 tracking-tight pb-4 border-b border-slate-150 mb-4">Efficacy Rubric Scale</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-start space-x-3 text-xs">
+                            <span class="bg-emerald-100 text-emerald-800 font-extrabold px-2 py-1 rounded">Score 3</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Direct Resolution</h4>
+                                <p class="text-slate-500">Problem mitigated instantly by educator within 2 minutes. No IT dispatch needed.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 text-xs">
+                            <span class="bg-blue-100 text-blue-800 font-extrabold px-2 py-1 rounded">Score 2</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Moderate Mitigation</h4>
+                                <p class="text-slate-500">Educator identifies the issue, securing a temporary classroom workaround.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 text-xs">
+                            <span class="bg-yellow-100 text-yellow-800 font-extrabold px-2 py-1 rounded">Score 1</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">Minor Mitigation</h4>
+                                <p class="text-slate-500">System correctly routed to diagnostics, but physical parts require tech dispatch.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start space-x-3 text-xs">
+                            <span class="bg-red-100 text-red-800 font-extrabold px-2 py-1 rounded">Score 0</span>
+                            <div>
+                                <h4 class="font-bold text-slate-800">No Mitigation</h4>
+                                <p class="text-slate-500">Failure persists, resulting in complete abandonment of presentation assets.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-slate-950 text-slate-400 py-12 px-4 border-t border-slate-900 mt-20 text-xs text-center font-mono space-y-2">
+        <p>EDET 6155 • Module 2: Project Design Report &amp; Infographic Presentation</p>
+        <p>No external SVG elements or Mermaid JS structures are used in this application.</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxChars = 16) => {
+            if (label.length <= maxChars) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length <= maxChars) {
+                    currentLine = (currentLine + ' ' + word).trim();
+                } else {
+                    if (currentLine) lines.push(currentLine);
+                    currentLine = word;
+                }
+            });
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        };
+
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const ctxCohort = document.getElementById('cohortChart').getContext('2d');
+        new Chart(ctxCohort, {
+            type: 'doughnut',
+            data: {
+                labels: [
+                    'K-2 Classrooms',
+                    '3-5 Classrooms',
+                    'Middle School (6-8)',
+                    'High School (9-12)',
+                    'Higher Education'
+                ].map(l => wrapLabel(l)),
+                datasets: [{
+                    data: [10, 10, 10, 10, 10],
+                    backgroundColor: [
+                        '#E74C3C',
+                        '#C0392B',
+                        '#34495E',
+                        '#1ABC9C',
+                        '#2C3E50'
+                    ],
+                    borderWidth: 0,
+                    hoverOffset: 6
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94A3B8',
+                            font: { size: 10, family: 'Inter' },
+                            padding: 10
+                        }
+                    },
+                    tooltip: commonTooltipConfig
+                },
+                cutout: '65%'
+            }
+        });
+
+        const ctxCategory = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctxCategory, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Display Handshake',
+                    'Cable wear/break',
+                    'Sound & mic gain',
+                    'Port/connector fail',
+                    'RF Signal clash'
+                ].map(l => wrapLabel(l)),
+                datasets: [{
+                    data: [12, 18, 11, 6, 3],
+                    backgroundColor: '#E74C3C',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: { color: '#94A3B8', font: { size: 10 } },
+                        grid: { color: '#334155' }
+                    },
+                    x: {
+                        ticks: { color: '#94A3B8', font: { size: 10 } },
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        const simulationData = [
+            {
+                cohort: "K-2",
+                problem: "Interactive phone board touch-input registered 6 inches off-center due to a loose USB data tether.",
+                translation: "Teacher inputs: 'The smartboard pens are drawing in the wrong spot.'",
+                steps: [
+                    "Locate physical USB tether cable leading from smartboard display to wall input plate.",
+                    "Unplug USB connection and verify if pins are undamaged.",
+                    "Firmly re-insert USB cable to ensure complete physical contact.",
+                    "Verify calibration registers touch points on central vector axes."
+                ],
+                score: "3/3 (Direct Resolution)",
+                timeSaved: "18 minutes"
+            },
+            {
+                cohort: "K-2",
+                problem: "VGA cable pin bent, stripping red and green color channels. Screen displaying solely in purple/pink hue.",
+                translation: "Teacher inputs: 'My document camera display is completely pink and purple.'",
+                steps: [
+                    "Examine physical connectors on both ends of VGA cable linking visualizer unit.",
+                    "Check for bent, broken, or pushed-back pins in the physical connector housings.",
+                    "Gently straighten slightly bent pins or swap the patch-cable for a spare HDMI path.",
+                    "Confirm standard color alignment is restored on classroom display."
+                ],
+                score: "3/3 (Direct Resolution)",
+                timeSaved: "15 minutes"
+            },
+            {
+                cohort: "3-5",
+                problem: "4K native resolution display handshake fails on flat panel when connected via out-of-spec physical HDMI cable.",
+                translation: "Teacher inputs: 'I plugged my laptop in and the screen is blinking black.'",
+                steps: [
+                    "Open local device display output parameters on laptop settings menu.",
+                    "Manually downgrade output resolution from native 4K down to standard 1080p.",
+                    "Set refresh rate output parameters to 60Hz default threshold.",
+                    "Disconnect and firmly reconnect the HDMI line to refresh system EDID handshake."
+                ],
+                score: "3/3 (Direct Resolution)",
+                timeSaved: "22 minutes"
+            },
+            {
+                cohort: "6-8",
+                problem: "VGA switch box button contacts degraded. Toggling switcher box results in lost analog red channel.",
+                translation: "Teacher inputs: 'The camera display is missing standard colors when I push the button.'",
+                steps: [
+                    "Examine physical switcher box contacts on back of lecture lectern.",
+                    "Apply firm manual pressure to mechanical input buttons to clean internally oxidized contacts.",
+                    "Bypass physical switcher unit entirely, running direct cabling from document camera to projector path.",
+                    "Check if true balanced spectrum is recovered on projection display surface."
+                ],
+                score: "2/3 (Moderate Workaround)",
+                timeSaved: "12 minutes"
+            },
+            {
+                cohort: "9-12",
+                problem: "Amplifier gain settings pushed excessively high causing over-driven audio squeal when mic is activated.",
+                translation: "Teacher inputs: 'Whenever I speak, the ceiling speakers make a loud high-pitched noise.'",
+                steps: [
+                    "Locate physical classroom sound system receiver volume dial.",
+                    "Lower output volume gain parameter at source before activating microphone receiver.",
+                    "Verify speaker and microphone proximity thresholds to prevent loop cycle.",
+                    "Slowly increase system volume to balanced level."
+                ],
+                score: "3/3 (Direct Resolution)",
+                timeSaved: "20 minutes"
+            },
+            {
+                cohort: "Higher Ed",
+                problem: "USB-C adapter bent pin restricting Alt-Mode display output while continuing to supply raw battery power.",
+                translation: "Teacher inputs: 'My computer is charging through the cable but won't send slides to the display.'",
+                steps: [
+                    "Visually inspect gold connection pins inside male USB-C terminal tip.",
+                    "Look for physical structural bend on external framing sleeve.",
+                    "Substitute physical USB-C node path with alternate HDMI connection option.",
+                    "Submit support ticket detailing physical damage to USB-C terminal plug interface."
+                ],
+                score: "2/3 (Moderate Workaround)",
+                timeSaved: "14 minutes"
+            }
+        ];
+
+        function runSimulation() {
+            const index = document.getElementById("scenarioSelector").value;
+            const data = simulationData[index];
+
+            document.getElementById("outputCohort").innerText = data.cohort;
+            document.getElementById("outputProblem").innerText = data.problem;
+            document.getElementById("outputTranslation").innerText = data.translation;
+            document.getElementById("outputScore").innerText = data.score;
+            document.getElementById("outputTime").innerText = data.timeSaved;
+
+            const stepsContainer = document.getElementById("outputSteps");
+            stepsContainer.innerHTML = "";
+            data.steps.forEach(step => {
+                const li = document.createElement("li");
+                li.innerText = step;
+                stepsContainer.appendChild(li);
+            });
+
+            const box = document.getElementById("simulationOutput");
+            box.classList.remove("hidden");
+            box.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+    </script>
+</body>
+</html>
