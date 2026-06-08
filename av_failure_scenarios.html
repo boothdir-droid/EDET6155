@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom AV Hardware Failure Scenarios Dataset</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2D3748;
+            background-color: #F7FAFC;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            border-bottom: 3px solid #2B6CB0;
+            padding-bottom: 20px;
+            margin-bottom: 35px;
+        }
+
+        h1 {
+            color: #1A365D;
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-subtitle {
+            color: #4A5568;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Purpose Box */
+        .purpose-box {
+            background-color: #F0FFF4;
+            border-left: 4px solid #38A169;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 35px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        }
+
+        .purpose-box h2 {
+            margin-top: 0;
+            color: #22543D;
+            font-size: 1.2rem;
+        }
+
+        .purpose-box p {
+            margin: 0;
+            color: #276749;
+            font-size: 0.95rem;
+            text-align: justify;
+        }
+
+        /* Download Section Card */
+        .download-panel {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .download-panel h3 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #2D3748;
+            font-size: 1.3rem;
+            border-bottom: 1px solid #EDF2F7;
+            padding-bottom: 8px;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+
+        @media (min-width: 600px) {
+            .download-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: 1px solid #E2E8F0;
+        }
+
+        .download-btn.excel-btn {
+            background-color: #F0FDF4;
+            border-color: #DCFCE7;
+        }
+
+        .download-btn.excel-btn:hover {
+            background-color: #DCFCE7;
+            border-color: #BBF7D0;
+            transform: translateY(-2px);
+        }
+
+        .download-btn.csv-btn {
+            background-color: #EFF6FF;
+            border-color: #DBEAFE;
+        }
+
+        .download-btn.csv-btn:hover {
+            background-color: #DBEAFE;
+            border-color: #BFDBFE;
+            transform: translateY(-2px);
+        }
+
+        .icon-box {
+            font-weight: bold;
+            font-size: 0.85rem;
+            padding: 10px 12px;
+            border-radius: 4px;
+            margin-right: 20px;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
+            text-align: center;
+            min-width: 65px;
+        }
+
+        .excel-btn .icon-box {
+            background-color: #15803D;
+            color: #FFFFFF;
+        }
+
+        .csv-btn .icon-box {
+            background-color: #1D4ED8;
+            color: #FFFFFF;
+        }
+
+        .btn-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .btn-title {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #1F2937;
+        }
+
+        .btn-desc {
+            font-size: 0.85rem;
+            color: #4B5563;
+            margin-top: 2px;
+        }
+
+        /* Dataset Summary Breakdown */
+        .summary-section h3 {
+            color: #2D3748;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+
+        .cohort-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .cohort-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+        }
+
+        .cohort-card .num {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2B6CB0;
+            display: block;
+        }
+
+        .cohort-card .label {
+            font-size: 0.85rem;
+            color: #4A5568;
+            font-weight: 500;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Classroom AV Hardware Failure Scenarios Dataset</h1>
+            <p class="meta-subtitle">Efficacy Analysis Data Matrix — 50 Localized Scenario Instances</p>
+        </header>
+
+        <div class="purpose-box">
+            <h2>Project Application & Evaluation Purpose</h2>
+            <p>
+                <strong>Research Notice Only:</strong> This catalog houses the dataset used to evaluate the troubleshooting course efficacy. It is structured into 10 distinct rows for each of the 5 key educational tiers (K–2, 3–5, Middle School, High School, and College). Each row provides deep technical variables capturing the targeted academic subject, specific physical AV components involved, local computer/device operating system layout outputs, and descriptive breakdowns of real-world physical failure modes to stress-test instructor response protocols.
+            </p>
+        </div>
+
+        <!-- Download Section -->
+        <div class="download-panel">
+            <h3>Download Dataset Assets</h3>
+            <div class="download-grid">
+                
+                <!-- Excel Download Link -->
+                <a href="Classroom AV Hardware Failure Scenarios Dataset V2.xlsx" class="download-btn excel-btn" download>
+                    <div class="icon-box">XLSX</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Excel Spreadsheet Format</span>
+                        <span class="btn-desc">Formatted workbook containing color-coded matrices and scenario keys.</span>
+                    </div>
+                </a>
+
+                <!-- CSV Download Link -->
+                <a href="Classroom AV Hardware Failure Scenarios Dataset V2 - Classroom AV Hardware Failure Scenarios Dataset V2.csv" class="download-btn csv-btn" download>
+                    <div class="icon-box">CSV</div>
+                    <div class="btn-text">
+                        <span class="btn-title">Flat CSV Data File</span>
+                        <span class="btn-desc">Comma-separated values text file optimized for automated parsing and analytics scripts.</span>
+                    </div>
+                </a>
+
+            </div>
+        </div>
+
+        <!-- Structural Summary Section -->
+        <div class="summary-section">
+            <h3>Matrix Distribution Summary</h3>
+            <p>
+                The underlying database provides balanced modeling scenarios cross-indexed by educational tiers to establish clear comparative metrics:
+            </p>
+            
+            <div class="cohort-list">
+                <div class="cohort-card">
+                    <span class="num">10</span>
+                    <span class="label">K–2 Cohort Rows</span>
+                </div>
+                <div class="cohort-card">
+                    <span class="num">10</span>
+                    <span class="label">3–5 Cohort Rows</span>
+                </div>
+                <div class="cohort-card">
+                    <span class="num">10</span>
+                    <span class="label">Middle School Rows</span>
+                </div>
+                <div class="cohort-card">
+                    <span class="num">10</span>
+                    <span class="label">High School Rows</span>
+                </div>
+                <div class="cohort-card">
+                    <span class="num">10</span>
+                    <span class="label">Higher Ed / College Rows</span>
+                </div>
+            </div>
+            
+            <p style="font-size: 0.9rem; color: #4A5568; font-style: italic; margin-top: 15px;">
+                Total Matrix Size: 50 Independent Technical Instances across 6 Distinct Attribute Fields (ID, Grade Level Cohort, Academic Subject, Physical Hardware Components Involved, Local Computer Output Settings, and Technical Failure Scenario Description).
+            </p>
+        </div>
+
+        <footer>
+            <p>AV Operations Department — Dataset Registry Engine</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Internal Project Evaluation Repository • Theoretical Research Deployment Framework</p>
+        </footer>
+    </div>
+
+</body>
+</html>
