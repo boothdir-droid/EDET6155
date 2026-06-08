@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom AV Hardware Reliability & AI Remediation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f9; 
+            color: #2c3e50; 
+        }
+        .text-primary { color: #e74c3c; } 
+        .bg-primary { background-color: #e74c3c; }
+        .text-secondary { color: #f1c40f; } 
+        .bg-secondary { background-color: #f1c40f; }
+        .text-accent-1 { color: #3498db; } 
+        .bg-accent-1 { background-color: #3498db; }
+        .text-accent-2 { color: #2ecc71; } 
+        .bg-accent-2 { background-color: #2ecc71; }
+        .text-dark { color: #2c3e50; } 
+        .bg-dark { background-color: #2c3e50; }
+        .text-light { color: #ecf0f1; }
+        .bg-light { background-color: #ecf0f1; }
+
+        .card {
+            background-color: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin-left: auto;
+            margin-right: auto;
+            height: 350px; 
+        }
+
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 400px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <nav class="bg-dark text-light p-4 sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto flex justify-between items-center">
+            <h1 class="text-xl font-bold tracking-wider">EduTech AV Analysis</h1>
+            <ul class="flex space-x-6 text-sm font-medium hidden md:flex">
+                <li><a href="#problem" class="hover:text-primary transition-colors">The Problem</a></li>
+                <li><a href="#methodology" class="hover:text-primary transition-colors">Methodology</a></li>
+                <li><a href="#data" class="hover:text-primary transition-colors">Dataset</a></li>
+                <li><a href="#remediation" class="hover:text-primary transition-colors">AI Remediation</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <header class="bg-primary text-white py-20 px-4 text-center">
+        <div class="container mx-auto max-w-4xl">
+            <h1 class="text-5xl font-black mb-4 leading-tight">Classroom AV Hardware Reliability & AI Remediation Modeling</h1>
+            <p class="text-xl font-light mb-8">Quantifying, analyzing, and mitigating physical classroom technology failures across educational environments.</p>
+            <div class="inline-block bg-white text-primary font-bold py-2 px-6 rounded-full shadow-lg uppercase tracking-wide text-sm">
+                Project Proposal & Dataset Analysis
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 mt-[-3rem]">
+        
+        <section id="problem" class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+                <div class="md:col-span-8 card relative z-10">
+                    <h2 class="text-3xl font-bold text-dark border-b-4 border-secondary inline-block pb-2 mb-6">The Disruptive Reality</h2>
+                    <p class="text-lg mb-4 text-gray-700">In modern education, physical classroom technology is essential. However, when foundational audiovisual (AV) hardware fails, the instructional flow stops. This isn't just an inconvenience; it's a critical loss of learning time.</p>
+                    <p class="text-lg text-gray-700">Existing research highlights the macro-impact: minor classroom interruptions accumulate to a staggering <strong class="text-primary">10 to 20 days of lost instructional time per academic year</strong> (Kraft & Monti-Nussbaum, 2021). Our project addresses the localized, mechanical failures driving this loss.</p>
+                </div>
+                <div class="md:col-span-4 flex flex-col justify-center gap-6">
+                    <div class="bg-dark text-white p-6 rounded-lg shadow-xl text-center transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-5xl font-black text-secondary mb-2">10-20</div>
+                        <div class="text-lg font-medium uppercase tracking-wide">Days Lost Annually</div>
+                        <div class="text-sm font-light text-gray-300 mt-2">Due to minor classroom interruptions</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-lg shadow-xl text-center border-t-4 border-primary transform hover:scale-105 transition-transform duration-300">
+                        <div class="text-4xl font-black text-primary mb-2">70%</div>
+                        <div class="text-md font-medium text-gray-800">Teachers Report Disruption</div>
+                        <div class="text-xs font-light text-gray-500 mt-2">Caused by hardware malfunctions waiting on IT ticketing</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="methodology" class="mb-16">
+            <h2 class="text-3xl font-bold text-dark text-center mb-10">Multi-Platform AI Anti-Bias Framework</h2>
+            <div class="card md:w-3/4 mx-auto">
+                <p class="text-center text-gray-700 mb-8">To ensure scientific integrity and eliminate algorithmic bias, data generation, course development, and analysis are intentionally decoupled across three independent AI architectures.</p>
+                
+                <div class="flex flex-col md:flex-row justify-between items-stretch gap-6 relative">
+                    
+                    <div class="hidden md:block absolute top-1/2 left-0 right-0 h-1 bg-gray-300 -z-10 transform -translate-y-1/2"></div>
+                    
+                    <div class="flex-1 bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 text-center relative">
+                        <div class="w-16 h-16 bg-accent-1 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg ring-4 ring-white">1</div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Gemini Architecture</h3>
+                        <p class="text-sm font-bold text-accent-1 uppercase mb-2">Data Generation & Containment</p>
+                        <p class="text-sm text-gray-600">Compiles and locks the raw dataset of 50 hardware failure scenarios. Isolated from course materials.</p>
+                    </div>
+
+                    <div class="flex-1 bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 text-center relative">
+                        <div class="w-16 h-16 bg-secondary text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg ring-4 ring-white">2</div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Copilot Architecture</h3>
+                        <p class="text-sm font-bold text-secondary uppercase mb-2">Curriculum & Agent Design</p>
+                        <p class="text-sm text-gray-600">Develops the "AV Foundations" curriculum and maps troubleshooting logic for the real-time agent.</p>
+                    </div>
+
+                    <div class="flex-1 bg-gray-50 p-6 rounded-lg shadow-md border border-gray-200 text-center relative">
+                        <div class="w-16 h-16 bg-accent-2 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4 shadow-lg ring-4 ring-white">3</div>
+                        <h3 class="text-xl font-bold text-dark mb-2">Claude Architecture</h3>
+                        <p class="text-sm font-bold text-accent-2 uppercase mb-2">Evaluative Analysis</p>
+                        <p class="text-sm text-gray-600">Acts as a blind third-party to cross-analyze the dataset against the curriculum to calculate mitigation likelihood.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="data" class="mb-16">
+            <div class="card">
+                <h2 class="text-3xl font-bold text-dark mb-6">The Dataset: 50 Real-World Scenarios</h2>
+                <p class="text-gray-700 mb-8">The core of this research is a pristine dataset of 50 distinct hardware failure scenarios. Crucially, this dataset <strong>strictly excludes software errors</strong>, focusing entirely on physical hardware and local device output configurations.</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12">
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-dark mb-2 text-center">Stratification by Educational Cohort</h3>
+                        <p class="text-sm text-gray-600 mb-4 text-center">Even distribution ensures representation across all learning environments.</p>
+                        <div class="chart-container">
+                            <canvas id="cohortDistributionChart"></canvas>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <h3 class="text-xl font-bold text-dark mb-2 text-center">Hardware vs. Configuration Issues</h3>
+                        <p class="text-sm text-gray-600 mb-4 text-center">Analysis of primary failure modes within the dataset.</p>
+                        <div class="chart-container">
+                            <canvas id="failureModeChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <h3 class="text-2xl font-bold text-dark mb-6 text-center">Common Failure Categories Observed</h3>
+                    <p class="text-center text-gray-600 mb-8 max-w-3xl mx-auto">A preliminary review of the 50 scenarios reveals specific clusters of recurring physical and configuration failures that repeatedly disrupt instruction.</p>
+                    
+                    <div class="chart-container max-w-4xl">
+                        <canvas id="failureCategoriesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="remediation" class="mb-16">
+            <h2 class="text-3xl font-bold text-dark text-center mb-10">The Remediation Strategy</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <div class="card border-l-8 border-accent-1">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-accent-1 text-white rounded-full flex items-center justify-center font-bold text-xl mr-4">&#10003;</div>
+                        <h3 class="text-2xl font-bold text-dark">Phase 1: Training Course</h3>
+                    </div>
+                    <p class="text-lg font-medium text-accent-1 mb-2">"AV Foundations and Troubleshooting for Teachers"</p>
+                    <p class="text-gray-700">A structured curriculum designed to equip educators with core mechanical competencies, cable identification skills, and systematic physical troubleshooting logic before failures occur.</p>
+                    <ul class="mt-4 list-disc list-inside text-gray-600 space-y-2">
+                        <li>Cable & Connector Identification</li>
+                        <li>Basic Signal Flow Understanding</li>
+                        <li>Output Resolution Configuration</li>
+                    </ul>
+                </div>
+
+                <div class="card border-l-8 border-accent-2">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-accent-2 text-white rounded-full flex items-center justify-center font-bold text-xl mr-4">&#9881;</div>
+                        <h3 class="text-2xl font-bold text-dark">Phase 2: Real-Time Tooling</h3>
+                    </div>
+                    <p class="text-lg font-medium text-accent-2 mb-2">Interactive AI-Driven Q&A Agent</p>
+                    <p class="text-gray-700">In a live classroom disruption, a teacher inputs immediate hardware symptoms. The agent instantly outputs a prioritized, context-aware sequence of physical troubleshooting steps to minimize downtime.</p>
+                    <div class="mt-4 bg-gray-100 p-3 rounded-md border border-gray-300 font-mono text-sm text-gray-800">
+                        <span class="text-primary font-bold">Teacher:</span> "Projector says 'Unsupported Format'."<br>
+                        <span class="text-accent-2 font-bold">AI Agent:</span> "Check laptop display settings. Change output from 4K to 1080p."
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-12 text-center max-w-3xl mx-auto">
+                <h3 class="text-xl font-bold text-dark mb-4">Ultimate Goal: The Mitigation Likelihood Score</h3>
+                <p class="text-gray-700 text-lg">The final analytical phase will process the 50 scenarios against these remediation tools to generate a Mitigation Likelihood Score, proving whether targeted training and AI support effectively protect instructional time.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-dark text-gray-400 py-8 text-center text-sm border-t-4 border-primary">
+        <p>&copy; 2026 EduTech Research Initiative. All data synthesized from project proposal parameters.</p>
+    </footer>
+
+    <script>
+        const wrapLabel = (label, maxChars = 16) => {
+            if (label.length <= maxChars) return label;
+            const words = label.split(' ');
+            const lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length <= maxChars) {
+                    currentLine = (currentLine + ' ' + word).trim();
+                } else {
+                    if (currentLine) lines.push(currentLine);
+                    currentLine = word;
+                }
+            });
+            if (currentLine) lines.push(currentLine);
+            return lines;
+        };
+
+        const commonTooltipConfig = {
+            callbacks: {
+                title: function(tooltipItems) {
+                    const item = tooltipItems[0];
+                    let label = item.chart.data.labels[item.dataIndex];
+                    if (Array.isArray(label)) {
+                        return label.join(' ');
+                    } else {
+                        return label;
+                    }
+                }
+            }
+        };
+
+        const ctxCohort = document.getElementById('cohortDistributionChart').getContext('2d');
+        new Chart(ctxCohort, {
+            type: 'doughnut',
+            data: {
+                labels: ['K-2 Environments', '3-5 Environments', 'Middle School (6-8)', 'High School (9-12)', 'Higher Education'].map(l => wrapLabel(l)),
+                datasets: [{
+                    data: [10, 10, 10, 10, 10], 
+                    backgroundColor: ['#e74c3c', '#f1c40f', '#3498db', '#2ecc71', '#9b59b6'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { position: 'right' },
+                    tooltip: commonTooltipConfig,
+                    title: { display: false }
+                },
+                cutout: '60%'
+            }
+        });
+
+        const ctxFailureMode = document.getElementById('failureModeChart').getContext('2d');
+        new Chart(ctxFailureMode, {
+            type: 'pie',
+            data: {
+                labels: ['Physical Hardware Malfunction (Breakage/Wear)', 'Configuration/Handshake Error (Resolution/Routing)'].map(l => wrapLabel(l, 25)),
+                datasets: [{
+                    data: [60, 40], 
+                    backgroundColor: ['#2c3e50', '#3498db'],
+                    borderWidth: 0,
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+
+        const ctxCategories = document.getElementById('failureCategoriesChart').getContext('2d');
+        new Chart(ctxCategories, {
+            type: 'bar',
+            data: {
+                labels: [
+                    'Display Resolution/Scaling Mismatches',
+                    'Cable Degradation/Fraying',
+                    'Audio Routing/Gain Configuration',
+                    'Mechanical Port/Connector Failure',
+                    'Wireless Signal/RF Interference',
+                    'Control Protocol Failures (EDID/RS232)'
+                ].map(l => wrapLabel(l, 20)),
+                datasets: [{
+                    label: 'Frequency in Dataset',
+                    data: [12, 9, 8, 11, 4, 6], 
+                    backgroundColor: '#e74c3c',
+                    borderRadius: 4
+                }]
+            },
+            options: {
+                maintainAspectRatio: false,
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: { display: true, text: 'Number of Occurrences' },
+                        grid: { color: '#ecf0f1' }
+                    },
+                    x: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: commonTooltipConfig
+                }
+            }
+        });
+    </script>
+</body>
+</html>

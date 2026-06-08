@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Draft Evaluation Blueprint & Prompting Protocol</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2D3748;
+            background-color: #F7FAFC;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background-color: #1A365D;
+            color: #FFFFFF;
+            padding: 30px;
+            border-radius: 8px 8px 0 0;
+            border-bottom: 5px solid #D69E2E;
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .version-tag {
+            background-color: #E53E3E;
+            color: #FFFFFF;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            display: inline-block;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .header-meta {
+            margin: 0;
+            font-size: 1rem;
+            color: #E2E8F0;
+            opacity: 0.9;
+        }
+
+        /* Notice Box */
+        .status-notice {
+            background-color: #FFF5F5;
+            border: 1px solid #FEB2B2;
+            border-left: 4px solid #E53E3E;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 4px;
+        }
+
+        .status-notice h2 {
+            margin-top: 0;
+            color: #9B2C2C;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-notice p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #742A2A;
+        }
+
+        /* Sections */
+        .section {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .section h2 {
+            color: #2B6CB0;
+            font-size: 1.4rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #EDF2F7;
+            padding-bottom: 8px;
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #2D3748;
+            color: #FFFFFF;
+            padding: 10px 14px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px 14px;
+            border-bottom: 1px solid #E2E8F0;
+            vertical-align: top;
+        }
+
+        tr:nth-child(even) td {
+            background-color: #F8FAFC;
+        }
+
+        /* Rubric Scores */
+        .score-badge {
+            display: inline-block;
+            font-weight: bold;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            text-align: center;
+            min-width: 85px;
+        }
+
+        .score-3 { background-color: #C6F6D5; color: #22543D; }
+        .score-2 { background-color: #FEFCBF; color: #744210; }
+        .score-1 { background-color: #EBF8FF; color: #2B6CB0; }
+        .score-0 { background-color: #FED7D7; color: #9B2C2C; }
+
+        /* Logic Flow Chart Representation */
+        .flowchart-container {
+            background-color: #F7FAFC;
+            border: 1px dashed #CBD5E0;
+            border-radius: 6px;
+            padding: 20px;
+            font-family: "Courier New", Courier, monospace;
+            font-size: 0.9rem;
+            color: #4A5568;
+            line-height: 1.4;
+            overflow-x: auto;
+        }
+
+        .list-items li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <span class="version-tag">Draft Version</span>
+            <h1>Comprehensive Evaluation Blueprint & Prompting Protocol</h1>
+            <p class="header-meta">Independent AI Evaluator (Claude) Simulation Framework</p>
+        </header>
+
+        <div class="status-notice">
+            <h2>⚠️ Pre-Update Architectural Draft</h2>
+            <p>
+                <strong>Notice:</strong> This document contains the original testing parameters based on initial learning retention assumptions and features active dependencies on the <strong>Conversational AI Troubleshooting Agent</strong>[cite: 3, 4]. This file serves as the baseline blueprint and must be refactored to isolate human factors before execution against the 50 localized classroom failure scenarios[cite: 3].
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Role & Task Definition</h2>
+            <p><strong>Role:</strong> Expert Third-Party Evaluator [cite: 2]</p>
+            <p>
+                <strong>Task:</strong> Execute a predictive cross-analysis between the provided training curriculum assets (textbook, lab manuals, checklists) and a locked dataset of 50 localized classroom AV technology failure modes[cite: 3]. The simulation maps how an educator handles real-time faults while backed at runtime by an interactive, conversational AI Troubleshooting Agent[cite: 4].
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Part 1. Human Cognitive Architecture (Asymmetric Memory Matrix)</h2>
+            <p>
+                Rather than treating learning loss as a flat, uniform 50% drop-off across all parameters, knowledge recall is modeled using a non-linear, three-tiered probability profile based on task complexity and instruction isolation[cite: 5, 6, 7]:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Cognitive Tier</th>
+                        <th style="width: 20%;">Recall Probability</th>
+                        <th style="width: 55%;">Evaluation Baseline Criteria</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Tier 1: Highlighted Training Material</strong> [cite: 10]</td>
+                        <td><strong>90% – 95%</strong> [cite: 10]</td>
+                        <td>Explicit "Symptom-to-Resolution" data pairs or parameters isolated for RAG fine-tuning[cite: 11]. Near-perfect memory recall; resolution occurs without substantial structural lag[cite: 13].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tier 2: Textbook Basics</strong> [cite: 14]</td>
+                        <td><strong>75% – 80%</strong> [cite: 14]</td>
+                        <td>High-level chapter headings and operational loops (e.g., OS screen duplication commands, basic cable ID, power continuity checks)[cite: 15, 18, 19]. Retained conceptually but introduces minor operational execution friction[cite: 20].</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Tier 3: Advanced Engineering Sub-Text</strong> [cite: 22]</td>
+                        <td><strong>~15%</strong> [cite: 22]</td>
+                        <td>Deep technical variables embedded in manuals or hardware appendices (e.g., EDID clock overrides, matrix buffer limits, HDCP handshakes)[cite: 23, 25]. Extreme decay under pressure; 100% reliant on runtime AI Agent prompt matching[cite: 26, 28].</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Part 2. Localized Resource Envelope</h2>
+            <p>
+                The simulation strictly limits outcomes to the local classroom environment. No external tech resources or swap-outs exist outside this exact boundary[cite: 30, 31, 32]:
+            </p>
+            <ul class="list-items">
+                <li><strong>Fixed Architecture:</strong> Classrooms possess exactly one alternate auxiliary routing pathway (e.g., an available legacy VGA line if the HDMI line exhibits digital drop-out)[cite: 33].</li>
+                <li><strong>Proactive Tech Kit:</strong> The educator carries an inventory consisting strictly of: 1x spare digital patch cable (HDMI/USB touch-tether), 1x USB-C to HDMI adapter dongle, 1x standard IEC power cord, and a minimal pack of AA/AAA dry-cell batteries[cite: 34, 36, 37, 38, 39].</li>
+                <li><strong>Hard Architectural Boundaries:</strong> Total failure of main structural devices (e.g., blown projector lamps, shattered LCD panels, broken built-in podium microphone lines) cannot be physically bypassed or hot-swapped[cite: 40, 41].</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Part 3. Continuity & Time-Recovery Rubric</h2>
+            <p>
+                Prioritizes instructional continuity and lesson preservation over engineering or technical aesthetics[cite: 44].
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 20%;">Score Metric</th>
+                        <th style="width: 25%;">Operational Threshold</th>
+                        <th style="width: 55%;">Pedagogical Impact Definition</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="score-badge score-3">Score 3</span></td>
+                        <td>Diagnosed & bypassed within 120 seconds[cite: 48].</td>
+                        <td><strong>Full Resolution / Workaround:</strong> Lesson proceeds completely as planned; zero media modification or student disengagement[cite: 45, 49, 50].</td>
+                    </tr>
+                    <tr>
+                        <td><span class="score-badge score-2">Score 2</span></td>
+                        <td>Functionality restored via alternative patch[cite: 54].</td>
+                        <td><strong>Diminished Capability:</strong> Device works, but restrictions compromise lesson format or force content omission (e.g., loss of a color channel)[cite: 52, 54, 55, 56].</td>
+                    </tr>
+                    <tr>
+                        <td><span class="score-badge score-1">Score 1</span></td>
+                        <td>Hardware break prevents immediate recovery[cite: 59].</td>
+                        <td><strong>Minor Mitigation / Accurate Routing:</strong> Presentation abandoned, forcing legacy backup methods[cite: 58, 61]. The accurate diagnostic report reduces long-term maintenance latency[cite: 62].</td>
+                    </tr>
+                    <tr>
+                        <td><span class="score-badge score-0">Score 0</span></td>
+                        <td>Persistent fault, complete lockout[cite: 65].</td>
+                        <td><strong>Total Abandonment:</strong> Teacher abandons environment completely due to technology fatigue and system mistrust[cite: 63, 66].</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Part 4. Processing Sequence & Automated Logic Gate</h2>
+            <p>
+                The step-by-step logic track utilized by the evaluator to parse system interaction loops[cite: 75, 76]:
+            </p>
+            <div class="flowchart-container">
+[START SCENARIO EVALUATION] [cite: 77]
+       │
+       ▼
+Is failure a Hard Architecture component breakage? [cite: 79]
+       ├── YES ──► [CAPPED AT SCORE 1 OR 2] (Evaluate secondary systems) [cite: 82, 85, 87]
+       │
+       └── NO  ──► Does failure map to Highlighted Material/Textbook Basics? [cite: 82, 85]
+                     ├── YES ──► Does Teacher possess tool in Spares Inventory? [cite: 88, 91, 92]
+                     │             ├── YES ──► [OUTCOME: SCORE 3] Full Functional Fix [cite: 94, 100, 101]
+                     │             └── NO  ──► [OUTCOME: SCORE 2] Diminished Workaround [cite: 94, 100, 102]
+                     │
+                     └── NO  ──► [CRITICAL COGNITIVE GAP] (Advanced Appendix Content) [cite: 88, 91]
+                                   │
+                                   ▼
+                                 Did the AI Agent translate symptoms to output explicit fix? [cite: 95, 100, 107, 108]
+                                   ├── YES ──► [SCORE 3 OR 2] Based on tool checks [cite: 104, 109]
+                                   └── NO  ──► [SCORE 0] Total Core Memory Drop-off [cite: 92, 104, 109]
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Part 5. Analytical Output Generation Formula</h2>
+            <p>
+                Every scenario audit must output a standardized text node across the four designated data criteria[cite: 111]:
+            </p>
+            <ol class="list-items" style="padding-left: 20px;">
+                <li><strong>Scenario ID & Target Cohort:</strong> Index reference tag[cite: 112].</li>
+                <li><strong>Pre-Intervention Baseline Outcome:</strong> Scored 0-3 using the 10%-20% non-guided intuitive action baseline[cite: 113, 114].</li>
+                <li><strong>Post-Training Content Classification:</strong> Memory tier destination mapping[cite: 114].</li>
+                <li><strong>Final Predictive Hybrid Efficacy Score:</strong> Definitive 0-3 grading factoring human memory, localized tool bags, and active AI agent mitigation paths alongside brief engineering justifications[cite: 115, 116].</li>
+            </ol>
+        </div>
+
+        <footer>
+            <p>AV Operations Department — Testing Automation Registry</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Internal Research Archive • Superceded Evaluation Logic Sandbox</p>
+        </footer>
+    </div>
+
+</body>
+</html>
