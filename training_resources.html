@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AV Operations Department - Training Resources Portal</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2D3748;
+            background-color: #F7FAFC;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+            padding-bottom: 30px;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        h1 {
+            color: #1A365D;
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #4A5568;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Disclaimer Notice */
+        .disclaimer-box {
+            background-color: #FFFAF0;
+            border-left: 4px solid #DD6B20;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 40px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .disclaimer-box h2 {
+            margin-top: 0;
+            color: #C05621;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .disclaimer-box p {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #7B341E;
+            line-height: 1.5;
+        }
+
+        /* Main Content Grid */
+        .content-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        @media (min-width: 768px) {
+            .content-layout {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        /* Cover Image Styling */
+        .cover-container {
+            text-align: center;
+        }
+
+        .cover-image {
+            width: 100%;
+            max-width: 320px;
+            border-radius: 8px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+            border: 1px solid #CBD5E0;
+            transition: transform 0.2s ease;
+        }
+
+        .cover-image:hover {
+            transform: scale(1.02);
+        }
+
+        /* Resource List Styling */
+        .resources-panel {
+            background: #FFFFFF;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border: 1px solid #E2E8F0;
+        }
+
+        .resources-panel h3 {
+            margin-top: 0;
+            margin-bottom: 25px;
+            color: #2B6CB0;
+            font-size: 1.4rem;
+            border-bottom: 2px solid #E2E8F0;
+            padding-bottom: 10px;
+        }
+
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .resource-item {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            text-decoration: none;
+            color: #2D3748;
+            transition: all 0.2s ease;
+        }
+
+        .resource-item:hover {
+            background-color: #EBF8FF;
+            border-color: #bee3f8;
+            transform: translateX(4px);
+        }
+
+        .file-icon {
+            background-color: #FED7D7;
+            color: #C53030;
+            font-weight: bold;
+            font-size: 0.75rem;
+            padding: 6px 8px;
+            border-radius: 4px;
+            margin-right: 15px;
+            letter-spacing: 0.5px;
+            border: 1px solid #FEB2B2;
+            flex-shrink: 0;
+        }
+
+        .file-name {
+            font-weight: 500;
+            font-size: 1rem;
+            flex-grow: 1;
+            color: #2D3748;
+        }
+
+        .resource-item:hover .file-name {
+            color: #2B6CB0;
+        }
+
+        .download-arrow {
+            color: #A0AEC0;
+            font-size: 1.2rem;
+            margin-left: 10px;
+            transition: color 0.2s ease;
+        }
+
+        .resource-item:hover .download-arrow {
+            color: #2B6CB0;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>AV Fundamentals for Educators</h1>
+            <p class="subtitle">AV Operations Department Training & Evaluation Initiative</p>
+        </header>
+
+        <!-- Academic / Project Disclaimer -->
+        <div class="disclaimer-box">
+            <h2>⚠️ Project Research Notice & Disclaimer</h2>
+            <p>
+                <strong>Important:</strong> The materials and files listed below are prepared strictly for internal project evaluation purposes and academic research. They are <strong>not</strong> officially affiliated with, endorsed by, or partnered with <strong>AVIXA</strong> or <strong>ISTE</strong> in any way. 
+            </p>
+            <p style="margin-top: 10px;">
+                These documents constitute a conceptual model representing what a hypothetical collaborative training curriculum might look like. They are deployed exclusively to test educational methodologies regarding the effectiveness of training classroom teachers on foundational audiovisual concepts, proactive hardware systems knowledge, and standardized technical troubleshooting.
+            </p>
+        </div>
+
+        <div class="content-layout">
+            <!-- Left Column: Textbook Cover Preview -->
+            <div class="cover-container">
+                <img src="Textbook_Cover.png" alt="AV Fundamentals for Educators Textbook Cover" class="cover-image">
+                <p style="font-size: 0.85rem; color: #718096; margin-top: 12px; font-style: italic;">
+                    Conceptual Training Document Design Block
+                </p>
+            </div>
+
+            <!-- Right Column: Resource Library Links -->
+            <div class="resources-panel">
+                <h3>Curriculum & Training Media Assets</h3>
+                <div class="resource-list">
+                    
+                    <a href="AV Fundamentals for Educators – Instructor Guide.pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Instructor Guide</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                    <a href="AV Fundamentals for Educators – Lab Workbook.pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Lab Workbook</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                    <a href="AV Fundamentals for Educators – Practice Exam and Assessment Bank.pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Practice Exam and Assessment Bank</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                    <a href="AV Fundamentals for Educators – Resource Appendix and Production Guide.pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Resource Appendix and Production Guide</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                    <a href="AV Fundamentals for Educators – Student Textbook Part 1 (Chapters 1–6).pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Student Textbook Part 1 (Chapters 1–6)</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                    <a href="AV Fundamentals for Educators – Student Textbook Part 2 (Chapters 7–12).pdf" class="resource-item" download>
+                        <span class="file-icon">PDF</span>
+                        <span class="file-name">AV Fundamentals for Educators – Student Textbook Part 2 (Chapters 7–12)</span>
+                        <span class="download-arrow">⬇</span>
+                    </a>
+
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>AV Operations Department — Project Platform Site Framework</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Internal Use Only • Theoretical Education Delivery Metrics</p>
+        </footer>
+    </div>
+
+</body>
+</html>
