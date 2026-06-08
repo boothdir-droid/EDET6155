@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Retention & Cognitive Filtration Methodology</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #2D3748;
+            background-color: #F7FAFC;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            border-bottom: 3px solid #3182CE;
+            padding-bottom: 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: #1A365D;
+            font-size: 2.2rem;
+            margin: 0 0 10px 0;
+        }
+
+        .meta-subtitle {
+            color: #4A5568;
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        /* Research Notice Alert */
+        .methodology-alert {
+            background-color: #EBF8FF;
+            border-left: 4px solid #3182CE;
+            padding: 20px;
+            border-radius: 4px;
+            margin-bottom: 35px;
+        }
+
+        .methodology-alert h2 {
+            margin-top: 0;
+            color: #2B6CB0;
+            font-size: 1.2rem;
+        }
+
+        .methodology-alert p {
+            margin: 0;
+            color: #2C5282;
+            font-size: 0.95rem;
+        }
+
+        /* Structural Layout */
+        h2.section-title {
+            color: #2D3748;
+            font-size: 1.5rem;
+            border-bottom: 1px solid #E2E8F0;
+            padding-bottom: 8px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* Comparison Table */
+        .table-container {
+            overflow-x: auto;
+            margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            border-radius: 8px;
+            border: 1px solid #E2E8F0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #FFFFFF;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        th {
+            background-color: #2D3748;
+            color: #FFFFFF;
+            padding: 12px 16px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #E2E8F0;
+            vertical-align: top;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:nth-child(even) {
+            background-color: #F8FAFC;
+        }
+
+        .badge-old {
+            background-color: #FED7D7;
+            color: #9B2C2C;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        .badge-new {
+            background-color: #C6F6D5;
+            color: #22543D;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        /* Shared Links Grid */
+        .links-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        @media (min-width: 600px) {
+            .links-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .share-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 20px;
+            text-decoration: none;
+            color: #2D3748;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .share-card:hover {
+            transform: translateY(-2px);
+            border-color: #3182CE;
+            box-shadow: 0 4px 12px rgba(49, 130, 206, 0.1);
+        }
+
+        .share-card h3 {
+            margin: 0 0 10px 0;
+            color: #2B6CB0;
+            font-size: 1.1rem;
+        }
+
+        .share-card p {
+            margin: 0 0 15px 0;
+            font-size: 0.85rem;
+            color: #718096;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .card-footer {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #3182CE;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: auto;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>The Iterative Process: Grounding Predictable Retention</h1>
+            <p class="meta-subtitle">Reevaluating Cognitive Filtration Models in Technical Training Research</p>
+        </header>
+
+        <div class="methodology-alert">
+            <h2>Methodological Paradigm Shift</h2>
+            <p>
+                <strong>Project Purpose Only:</strong> This log documents an evolving research workflow designed to analyze classroom instructional decay. Rather than relying on static assumptions, this iterative loop leverages prompt generation, deep domain literature analysis, and AI analysis to build a verified baseline for technical learning loss.
+            </p>
+        </div>
+
+        <h2 class="section-title">1. Overcoming the "Guesswork" Baseline</h2>
+        <p>
+            Early exploratory models of our cognitive filter relied primarily on estimated values, assumptions, and generalized assertions regarding how effectively an educator retains troubleshooting information after a training session. While useful for constructing basic conceptual wireframes, utilizing numbers that can at best be described as structured guesses introduces a high margin of error when mapping out practical mitigation windows for instructional tech disruptions.
+        </p>
+        <p>
+            To address this vulnerability, our research transitioned into an iterative, multi-tiered pipeline of targeted prompt generation, external analytical verification, and programmatic data synthesis. By grounding our variables in established cognitive load frameworks and documented retention curves, we replace arbitrary data points with defensible, contextual parameters.
+        </p>
+
+        <h2 class="section-title">2. Comparative Evolution of the Research Model</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 25%;">Analytical Dimension</th>
+                        <th style="width: 37%;">Original Conceptual Plan <span class="badge-old">Old</span></th>
+                        <th style="width: 38%;">Iterative AI Analysis Framework <span class="badge-new">New</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Variable Acquisition</strong></td>
+                        <td>Relied on arbitrary percentage curves and generic assumptions about technical skill decay.</td>
+                        <td>Extracted through specialized programmatic prompting backed by behavioral learning theories.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Cognitive Friction Mapping</strong></td>
+                        <td>Treated as a static penalty value across all types of hardware failures.</td>
+                        <td>Dynamically weights variable cognitive load against the specific complexity of the troubleshooting task.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Predictable Retention</strong></td>
+                        <td>Estimated through standard linear decay intervals without environmental context.</td>
+                        <td>Calculates interactive mitigation factors, isolating targeted training vs. raw technical knowledge dropoff.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 class="section-title">3. Prompt Generation & Analysis Documentation</h2>
+        <p>
+            The transition from abstract assumptions to a formalized data structure was driven by explicit, multi-turn AI interactions. These prompt architectures systematically challenged our initial premises, cross-referenced parameters against cognitive psychology models, and synthesized a stable formula for the study's cognitive filter variable.
+        </p>
+        <p>
+            The verified prompt chains, methodology adjustments, and generated data layers are preserved in the shared project workspaces below:
+        </p>
+
+        <div class="links-grid">
+            <a href="https://gemini.google.com/share/3383c486bc50" target="_blank" rel="noopener noreferrer" class="share-card">
+                <div>
+                    <h3>Prompt Generation & Model Baseline - Part 1</h3>
+                    <p>Initial structural interrogation, variable definitions, and isolating the cognitive filtration parameters to break away from assumption-based data modeling.</p>
+                </div>
+                <div class="card-footer">Review Shared Session ↗</div>
+            </a>
+
+            <a href="https://gemini.google.com/share/f42236a8cbcb" target="_blank" rel="noopener noreferrer" class="share-card">
+                <div>
+                    <h3>Deep Research & AI Analysis Synthesis - Part 2</h3>
+                    <p>Advanced calculation refining, aligning the retention curve formulas with actual technical training metrics, and outputting the final research variable architecture.</p>
+                </div>
+                <div class="card-footer">Review Shared Session ↗</div>
+            </a>
+        </div>
+
+        <p>
+            By institutionalizing this feedback loop, the resulting cognitive filter serves as an objective mechanism to study how classroom teachers process, retain, and actively deploy fundamental AV troubleshooting strategies when navigating real-time hardware faults.
+        </p>
+
+        <footer>
+            <p>AV Operations Department — Research Analytics Portal Interface</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Internal Research Document Module • Hypothetical Academic Use-Case Only</p>
+        </footer>
+    </div>
+
+</body>
+</html>
