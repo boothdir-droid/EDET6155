@@ -23,6 +23,11 @@
             }
         }
     </script>
+<script>
+        // Forces the browser to override any stale or ghost window alert prompts instantly
+        window.prompt = function() { return null; };
+        console.log("Authentication prompt triggers deactivated.");
+    </script>
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans antialiased">
 
