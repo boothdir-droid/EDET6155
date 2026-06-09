@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Architecture Overview & Evolution</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1E293B;
+            background-color: #F8FAFC;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            background-color: #0F172A;
+            color: #FFFFFF;
+            padding: 35px 30px;
+            border-radius: 12px 12px 0 0;
+            border-bottom: 5px solid #3B82F6;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        .meta-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .version-tag {
+            background-color: #10B981;
+            color: #FFFFFF;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .doc-link {
+            color: #60A5FA;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .doc-link:hover {
+            color: #93C5FD;
+            text-decoration: underline;
+        }
+
+        /* Callout / Status Block */
+        .status-block {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-left: 5px solid #64748B;
+            padding: 25px;
+            margin: 30px 0;
+            border-radius: 8px;
+        }
+
+        .status-block h2 {
+            margin-top: 0;
+            color: #334155;
+            font-size: 1.25rem;
+        }
+
+        /* Sections */
+        .section {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            padding: 35px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #1E3A8A;
+            font-size: 1.5rem;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #F1F5F9;
+            padding-bottom: 10px;
+        }
+
+        /* Grid Cards */
+        .silo-grid {
+            display: grid;
+            grid-cols: 1;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        @media(min-width: 768px) {
+            .silo-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        .silo-card {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .silo-card h4 {
+            margin: 0 0 10px 0;
+            font-size: 1.1rem;
+            color: #0F172A;
+        }
+
+        /* Change Timeline */
+        .timeline-step {
+            margin-bottom: 25px;
+            padding-left: 20px;
+            border-left: 3px solid #3B82F6;
+        }
+
+        .timeline-step:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-step h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.2rem;
+            color: #1E293B;
+        }
+
+        .timeline-step .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .badge-orig { background-color: #DBEAFE; color: #1E40AF; }
+        .badge-pivot { background-color: #FEF08A; color: #713F12; }
+        .badge-final { background-color: #D1FAE5; color: #065F46; }
+
+        ul, ol {
+            padding-left: 20px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #64748B;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>AV Fundamentals for Educators: Complete Project Lineage</h1>
+            <div class="meta-container">
+                <span class="version-tag">Final Architecture Summary</span>
+                <span style="color: #94A3B8; font-size: 0.9rem;">Course: EDET 6155 — AI in Ed Tech and Learning Design</span>
+            </div>
+        </header>
+
+        <div class="status-block">
+            <h2>Master Project Index</h2>
+            <p>This master document provides an exhaustive administrative trail tracking the evolution of this research intervention from initial scoping to its finalized predictive sandbox configuration. It compiles and replaces legacy data footprints found across structural project assets.</p>
+            <p><strong>Primary Reference Files:</strong> <code>Problem Statement.pdf</code> • <code>Project Plan.pdf</code> • <code>Phase 2 Design Guide.pdf</code> • <code>Updated Project Design Report.pdf</code> • <code>pd_retention_analysis_2.html</code> • <code>updated_analysis_process.html</code> • <code>updated_claude_rubric.html</code></p>
+        </div>
+
+        <div class="section">
+            <h2>1. Genesis: The Problem Statement & Literature Review</h2>
+            <p>
+                The project originated from a critical gap identified between modern instructional dependence on digital tools and a total lack of hardware troubleshooting literacy in basic teacher preparation programs. 
+            </p>
+            <ul>
+                <li><strong>The Core Challenge:</strong> Routine classroom presentation technology failures—such as physical cable disconnections, incorrect display resolutions, mismatched aspect ratios, and failed digital handshakes—permanently drain up to 9% of planned learning hours. This translates to over 200 hours of academic downtime per school annually[cite: 5, 10].</li>
+                <li><strong>Systemic Strain:</strong> Post-pandemic teacher fatigue, mounting educational workloads, and understaffed institutional IT support networks leave teachers unsupported during critical, real-time classroom errors[cite: 5, 10]. The resulting friction causes an acute lack of environmental trust, pushing weary educators to abandon digital learning assets entirely[cite: 5, 10].</li>
+                <li><strong>The Administrative Gap:</strong> Current intervention methodologies rely almost exclusively on lagging, reactive software workshops or slow IT helpdesk ticketing mechanisms[cite: 5, 10]. These do not teach an instructor how to visually evaluate or physically resolve local signal routing and connectivity faults[cite: 5, 10].</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>2. The Core Architecture: The 3-Silo Sandbox Model</h2>
+            <p>
+                To systematically evaluate and address this challenge under the ADDIE instructional design framework without disrupting active classrooms or demanding live human subjects, a multi-platform, decoupled AI sandbox loop was engineered[cite: 5, 10]. This environment was constructed across three specific operational silos to isolate data generation from evaluation, completely removing developer bias[cite: 5, 10]:
+            </p>
+            
+            <div class="silo-grid">
+                <div class="silo-card">
+                    <h4>Silo 1: The Architect</h4>
+                    <p><strong>Platform: Microsoft Copilot</strong></p>
+                    <p style="font-size: 0.9rem; color: #475569;">Collaborates as a structural learning experience partner to build out the foundational hardware-focused professional development curriculum, maps technical terminology, and shapes core instructional content loops[cite: 5, 10].</p>
+                </div>
+                <div class="silo-card">
+                    <h4>Silo 2: The Environment</h4>
+                    <p><strong>Platform: Google Gemini</strong></p>
+                    <p style="font-size: 0.9rem; color: #475569;">Acts as the unpredictable real-world classroom factor[cite: 5, 10]. It synthesizes web-scraped problem logs to generate a locked dataset of 50 localized physical technology failure scenarios stratified across 5 grade bands[cite: 5, 10].</p>
+                </div>
+                <div class="silo-card">
+                    <h4>Silo 3: The Evaluator</h4>
+                    <p><strong>Platform: Anthropic Claude</strong></p>
+                    <p style="font-size: 0.9rem; color: #475569;">Acts as an independent third-party auditor[cite: 5, 10]. It algorithmically processes each classroom failure against the curriculum's structural rules to accurately predict time-loss mitigation and continuous learning preservation[cite: 2, 5].</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>3. Critical Scope Changes & Subsequent Research Pivot</h2>
+            <p>The implementation path underwent a significant architectural pivot following intermediate peer reviews and deep cognitive science investigations[cite: 3, 5]:</p>
+
+            <div class="timeline-step">
+                <span class="badge badge-orig">Original Concept</span>
+                <h3>The Dual-Pronged Intervention</h3>
+                <p>The baseline design proposed a two-part intervention: a targeted technical curriculum to train educators on hardware properties, backed at run-time by an interactive, conversational AI Troubleshooting Agent using a highly restricted RAG framework to advise teachers during active faults[cite: 5].</p>
+            </div>
+
+            <div class="timeline-step">
+                <span class="badge badge-pivot">Scope Reduction Pivot</span>
+                <h3>Deselection of the AI Troubleshooting Agent</h3>
+                <p>To establish maximum feasibility and isolate pure human capability, the AI Troubleshooting Agent was completely removed from the project scope[cite: 1, 5]. The project pivoted to examine exactly how effective localized physical hardware training is on its own, stripping away any active AI support nets or real-time conversational assistance[cite: 5].</p>
+            </div>
+
+            <div class="timeline-step">
+                <span class="badge badge-final">Scientific Overhaul</span>
+                <h3>Integration of the $REP_{30}$ Mathematical Filter</h3>
+                <p>Rather than relying on flat, unscientific 50% knowledge drop-off assumptions, subsequent research into adult cognitive architecture was integrated via the 30-Day Summer PD Retention and Learning Transfer Guide[cite: 3, 5]. Human memory decay under high-stress classroom environments is now calculated using a non-linear seven-variable formula[cite: 3]:</p>
+                <div style="background-color: #0F172A; color: #34D399; font-family: monospace; padding: 12px; border-radius: 6px; text-align: center; font-size: 1rem; margin: 15px 0;">
+                    REP30 = (Rbase × Salign × Ccomp × Ese × Pprime) × Ccontext × ERP
+                </div>
+                <p style="font-size: 0.95rem;">This allows variables like <em>Schema Alignment ($S_{align}$)</em>, <em>Context-Dependent Reinstatement ($C_{context}$)</em>, and <em>Expertise Reversal Penalties ($ERP$)</em> to be assessed uniquely for each individual scenario, capturing nuanced human capability rather than static course summaries[cite: 3].</p>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>4. Finalized Project Deliverables & Output Blueprint</h2>
+            <p>The final completed project settles into a rigorous, automated testing framework built to establish a predictive data baseline before future human deployments[cite: 5]. It consists of the following four primary pillars:</p>
+            <ol>
+                <li><strong>The Professional Development Curriculum Matrix:</strong> A targeted, hardware-focused learning framework covering physical cable validation, input signal flow paths, and local device configuration panels, designed to support a specialized SUNY CPD digital badge[cite: 5, 10].</li>
+                <li><strong>The Locked Environmental Dataset:</strong> 50 highly localized, grade-band stratified failure scenarios (covering Kindergarten up to Higher Education) testing physical continuity and configuration flaws under high pressure[cite: 5, 10].</li>
+                <li><strong>The Individualized Scenario Evaluation Filter:</strong> An automated parsing protocol inside Claude Projects that maps each scenario step-by-step against localized toolkit spares (HDMI, adapter dongles, power cables) and unique $REP_{30}$ variables, requiring a calculated threshold of &ge;75% memory retention to pass[cite: 1, 3].</li>
+                <li><strong>The CRA-T Diagnostic Synthesis Report:</strong> A standardized, objective data output that scores each post-intervention scenario on a 4-point instructional continuity rubric (Scores 0-3), providing explicit engineering justifications and identifying clear curriculum flaws or optimization zones[cite: 1, 3].</li>
+            </ol>
+        </div>
+
+        <footer>
+            <p>AV Operations Department — Educational Technology Research Registry</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Peter Thomas • Final System Architecture Overview • Document Version 2.4 • 2026</p>
+        </footer>
+    </div>
+
+</body>
+</html>
