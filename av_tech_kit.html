@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proactive AV Tech Kit Inventory Registry</title>
+    <style>
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.5;
+            color: #2D3748;
+            background-color: #F0F4F8;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Hero Image Header Block */
+        .brand-hero-header {
+            width: 100%;
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(26, 54, 93, 0.12);
+            overflow: hidden;
+            margin-bottom: 40px;
+            border-bottom: 5px solid #D69E2E;
+        }
+
+        .hero-banner-img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Overview Panel */
+        .overview-panel {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+        }
+
+        .overview-panel h1 {
+            margin-top: 0;
+            color: #1A365D;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 12px;
+        }
+
+        .overview-panel p {
+            margin: 0;
+            color: #4A5568;
+            font-size: 1.05rem;
+            text-align: justify;
+        }
+
+        /* Kit Content Grid Cards */
+        .kit-card {
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 35px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02);
+            margin-bottom: 35px;
+        }
+
+        .kit-card h2 {
+            margin-top: 0;
+            margin-bottom: 20px;
+            color: #1A365D;
+            font-size: 1.35rem;
+            border-bottom: 2px solid #EDF2F7;
+            padding-bottom: 8px;
+        }
+
+        /* REFACTORED: Compact Bulleted Layout list */
+        .compact-inventory-list {
+            list-style-type: none;
+            padding-left: 0;
+            margin: 0 0 15px 0;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+        }
+
+        @media (min-width: 640px) {
+            .compact-inventory-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .compact-item {
+            position: relative;
+            padding-left: 20px;
+            font-size: 0.95rem;
+            color: #4A5568;
+            font-weight: 500;
+        }
+
+        .compact-item::before {
+            content: "•";
+            color: #D69E2E;
+            font-weight: bold;
+            font-size: 1.2rem;
+            position: absolute;
+            left: 4px;
+            top: -2px;
+        }
+
+        .qty-tag {
+            color: #2B6CB0;
+            font-weight: 700;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Asset External Link Buttons Section with Embedded Small Previews */
+        .links-wrapper {
+            margin-top: 30px;
+            border-top: 1px solid #EDF2F7;
+            padding-top: 25px;
+        }
+
+        .links-wrapper h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #718096;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Clean list stack for preview-integrated items */
+        .preview-links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .asset-preview-row {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+
+        .asset-preview-row:hover {
+            border-color: #4299E1;
+            background-color: #FFFFFF;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+        }
+
+        /* Small Size Preview Image Container */
+        .thumb-preview-box {
+            width: 140px;
+            height: 90px;
+            background-color: #EDF2F7;
+            border-right: 1px solid #E2E8F0;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            line-height: 0;
+        }
+
+        .link-thumb-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.9;
+            transition: opacity 0.2s ease;
+        }
+
+        .asset-preview-row:hover .link-thumb-img {
+            opacity: 1;
+        }
+
+        /* Content Text and Action Launch Area */
+        .link-interactive-action {
+            flex-grow: 1;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #2B6CB0;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-decoration: none;
+        }
+
+        .asset-preview-row:hover .link-interactive-action {
+            color: #1A365D;
+        }
+
+        .guide-meta-title {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .file-string-label {
+            font-family: monospace;
+            font-size: 0.75rem;
+            color: #718096;
+            font-weight: normal;
+        }
+
+        .link-icon-vector {
+            font-size: 1.1rem;
+            color: #A0AEC0;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        
+        .asset-preview-row:hover .link-icon-vector {
+            color: #1A365D;
+            transform: translateX(2px);
+        }
+
+        footer {
+            margin-top: 60px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #718096;
+            border-top: 1px solid #E2E8F0;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="brand-hero-header">
+            <img src="av_tech_kit.png" alt="Proactive AV Tech Kit Master Header Block Banner" class="hero-banner-img">
+        </header>
+
+        <div class="overview-panel">
+            <h1>Proactive AV Tech Kit</h1>
+            <p>
+                This module defines the essential field kit items kept on hand following the successful completion of foundational operational courses. The inventory acts as a core physical resource baseline to safeguard educational instructional continuity and resolve standard mechanical signal faults across learning environment installations.
+            </p>
+        </div>
+
+        <div class="kit-card">
+            <h2>Inventory Registry Checklist</h2>
+            
+            <ul class="compact-inventory-list">
+                <li class="compact-item"><span class="qty-tag">[QTY 1]</span> Spare 10' HDMI Cable</li>
+                <li class="compact-item"><span class="qty-tag">[QTY 1]</span> USB-C to USB-A Cable</li>
+                <li class="compact-item"><span class="qty-tag">[QTY 1]</span> USB-C to HDMI Adapter Dongle</li>
+                <li class="compact-item"><span class="qty-tag">[QTY 1]</span> Standard IEC Power Cord</li>
+                <li class="compact-item"><span class="qty-tag">[QTY VAR]</span> Variety of AA/AAA Batteries</li>
+                <li class="compact-item"><span class="qty-tag">[QTY DOC]</span> Infographic Quick Guides</li>
+            </ul>
+
+            <div class="links-wrapper">
+                <h3>Infographic Quick Guides &amp; Documentation Registry</h3>
+                
+                <div class="preview-links-stack">
+                    
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="1_tool_kit.png" alt="1_tool_kit.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="1_tool_kit.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>1. Tool Kit Overview</span>
+                                <span class="file-string-label">File target: 1_tool_kit.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="2_computer_guide.png" alt="2_computer_guide.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="2_computer_guide.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>2. Computer Navigation Guide</span>
+                                <span class="file-string-label">File target: 2_computer_guide.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="3_laptop_guide.png" alt="3_laptop_guide.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="3_laptop_guide.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>3. Laptop Interface Routing</span>
+                                <span class="file-string-label">File target: 3_laptop_guide.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="4_extended_fix.png" alt="4_extended_fix.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="4_extended_fix.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>4. Extended Desktop Triage</span>
+                                <span class="file-string-label">File target: 4_extended_fix.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="5_resolution_guide.png" alt="5_resolution_guide.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="5_resolution_guide.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>5. Aspect Ratio &amp; Resolution Matrix</span>
+                                <span class="file-string-label">File target: 5_resolution_guide.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="6_audio_guide.png" alt="6_audio_guide.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="6_audio_guide.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>6. Sound Reinforcement Checklist</span>
+                                <span class="file-string-label">File target: 6_audio_guide.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="7_last_resort_checklist.png" alt="7_last_resort_checklist.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="7_last_resort_checklist.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>7. Last Resort Fault Isolation</span>
+                                <span class="file-string-label">File target: 7_last_resort_checklist.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                    <div class="asset-preview-row">
+                        <div class="thumb-preview-box">
+                            <img src="8_emergency_bypass.png" alt="8_emergency_bypass.png Thumbnail" class="link-thumb-img">
+                        </div>
+                        <a href="8_emergency_bypass.png" target="_blank" rel="noopener" class="link-interactive-action">
+                            <div class="guide-meta-title">
+                                <span>8. Emergency Matrix Hardware Bypass</span>
+                                <span class="file-string-label">File target: 8_emergency_bypass.png</span>
+                            </div>
+                            <span class="link-icon-vector">↗</span>
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <footer>
+            <p>AV Operations Department — Instructional Systems Design Portfolio</p>
+            <p style="font-size: 0.75rem; margin-top: 5px;">Internal Systems Registry File • Educational Technology Hardware Deployment Kit</p>
+        </footer>
+    </div>
+
+</body>
+</html>
