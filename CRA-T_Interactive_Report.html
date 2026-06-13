@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRA-T Report — ISTE × AVIXA | AV Training Failure Analysis</title>
+<style>
+:root {
+  --bg: #07111C;
+  --s1: #0D1E2E;
+  --s2: #122436;
+  --s3: #192E42;
+  --border: #1C3350;
+  --border-lo: #152840;
+  --accent: #00C2DE;
+  --accent-dim: rgba(0,194,222,0.12);
+  --accent-dim2: rgba(0,194,222,0.06);
+  --purple: #A855F7;
+  --purple-dim: rgba(168,85,247,0.12);
+  --c3: #10B981; --c3-bg: rgba(16,185,129,0.10); --c3-br: rgba(16,185,129,0.28);
+  --c2: #F59E0B; --c2-bg: rgba(245,158,11,0.10); --c2-br: rgba(245,158,11,0.28);
+  --c1: #F97316; --c1-bg: rgba(249,115,22,0.10); --c1-br: rgba(249,115,22,0.28);
+  --c0: #EF4444; --c0-bg: rgba(239,68,68,0.10); --c0-br: rgba(239,68,68,0.28);
+  --text: #D4E6F4;
+  --muted: #7996AE;
+  --dim: #4A6278;
+  --mono: 'JetBrains Mono','Fira Code','Cascadia Code','Courier New',monospace;
+  --sans: 'Inter',system-ui,-apple-system,'Segoe UI',Arial,sans-serif;
+  --r: 6px; --rl: 10px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-size:14px;line-height:1.6;min-height:100vh}
+
+/* HEADER */
+.hdr{background:var(--s1);border-bottom:1px solid var(--border);padding:18px 32px 0;position:sticky;top:0;z-index:200}
+.hdr-top{display:flex;align-items:center;gap:14px;margin-bottom:14px;flex-wrap:wrap}
+.hdr-badge{font-family:var(--mono);font-size:9px;color:var(--accent);background:var(--accent-dim);border:1px solid rgba(0,194,222,0.3);border-radius:3px;padding:3px 8px;letter-spacing:.14em;text-transform:uppercase;flex-shrink:0}
+.hdr-title{font-size:17px;font-weight:700;letter-spacing:-.02em}
+.hdr-sub{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:auto}
+.tab-nav{display:flex}
+.tab-btn{background:none;border:none;border-bottom:2px solid transparent;color:var(--muted);cursor:pointer;font-family:var(--sans);font-size:12px;font-weight:600;padding:9px 18px;letter-spacing:.02em;transition:color .15s,border-color .15s;white-space:nowrap}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+/* MAIN */
+.main{max-width:1440px;margin:0 auto;padding:28px 32px}
+.tab-pane{display:none}
+.tab-pane.active{display:block}
+
+/* OVERVIEW */
+.ov-hero{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch;margin-bottom:24px}
+.ov-model-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rl);padding:24px}
+.ov-model-card.pd-card{border-top:3px solid var(--accent)}
+.ov-model-card.fc-card{border-top:3px solid var(--purple)}
+.ov-model-label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px}
+.ov-model-label.pd-lbl{color:var(--accent)}
+.ov-model-label.fc-lbl{color:var(--purple)}
+.ov-model-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.ov-model-meta{font-size:12px;color:var(--muted);margin-bottom:20px}
+.ov-key-metric{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px}
+.okm-label{font-size:12px;color:var(--muted)}
+.okm-val{font-family:var(--mono);font-size:14px;font-weight:700}
+.ov-divider-col{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 4px}
+.vs-line{flex:1;width:1px;background:var(--border)}
+.vs-text{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.1em;white-space:nowrap}
+
+/* DIST BARS */
+.dist-section{background:var(--s1);border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin-bottom:20px}
+.dist-row{display:grid;grid-template-columns:90px 1fr 90px 1fr 60px;gap:8px;align-items:center;margin-bottom:8px}
+.dist-row-label{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em}
+.dist-bar-wrap{height:22px;background:var(--s3);border-radius:3px;overflow:hidden;display:flex;gap:0}
+.db{height:100%;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;font-weight:700;color:rgba(255,255,255,.9);min-width:0;transition:width .7s ease;overflow:hidden;white-space:nowrap}
+.db.d3{background:var(--c3)} .db.d2{background:var(--c2)} .db.d1{background:var(--c1)} .db.d0{background:var(--c0)}
+.dist-pct{font-family:var(--mono);font-size:11px;font-weight:600;text-align:right}
+.dist-legend{display:flex;gap:14px;margin-top:10px;flex-wrap:wrap}
+.dl-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
+.dl-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:20px}
+.stat-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px}
+.stat-num{font-family:var(--mono);font-size:26px;font-weight:700;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:11px;color:var(--muted)}
+.stat-delta{font-family:var(--mono);font-size:10px;margin-top:4px}
+
+/* FORMULA TABLE */
+.formula-compare{background:var(--s1);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden;margin-bottom:20px}
+.fc-head{display:grid;grid-template-columns:140px 1fr 1fr 1fr;background:var(--s2);border-bottom:1px solid var(--border)}
+.fc-cell{padding:8px 14px;font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.fc-cell.accent{color:var(--accent)} .fc-cell.purple{color:var(--purple)}
+.fc-row{display:grid;grid-template-columns:140px 1fr 1fr 1fr;border-bottom:1px solid var(--border-lo)}
+.fc-row:last-child{border-bottom:none}
+.fc-row:hover{background:var(--accent-dim2)}
+.fc-cell-var{padding:8px 14px;font-family:var(--mono);font-size:11px;font-weight:600;color:var(--accent)}
+.fc-cell-desc{padding:8px 14px;font-size:11px;color:var(--muted)}
+.fc-cell-val{padding:8px 14px;font-family:var(--mono);font-size:11px;font-weight:600}
+.fv-hi{color:var(--c3)} .fv-lo{color:var(--c0)} .fv-mid{color:var(--c2)} .fv-unch{color:var(--muted)}
+
+/* SECTION HEADERS */
+.sec-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.sec-title{font-size:16px;font-weight:700;margin-bottom:6px}
+.sec-desc{font-size:12px;color:var(--muted);margin-bottom:20px;line-height:1.55}
+.hr{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* SCENARIOS TAB */
+.scen-controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
+.search-box{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);color:var(--text);font-family:var(--sans);font-size:12px;padding:7px 12px;width:220px;outline:none}
+.search-box:focus{border-color:var(--accent)}
+.search-box::placeholder{color:var(--dim)}
+.fg{display:flex;gap:5px;flex-wrap:wrap}
+.chip{background:var(--s1);border:1px solid var(--border);border-radius:var(--r);color:var(--muted);cursor:pointer;font-size:11px;font-weight:500;padding:4px 10px;transition:all .15s;white-space:nowrap}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.chip.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.chip.gk2.on{background:var(--c3-bg);border-color:var(--c3);color:var(--c3)}
+.chip.g35.on{background:var(--accent-dim);border-color:var(--accent);color:var(--accent)}
+.chip.g68.on{background:var(--c2-bg);border-color:var(--c2);color:var(--c2)}
+.chip.g912.on{background:var(--c1-bg);border-color:var(--c1);color:var(--c1)}
+.chip.ghe.on{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
+.chip.reg-chip.on{background:var(--purple-dim);border-color:var(--purple);color:var(--purple)}
+.count-txt{font-family:var(--mono);font-size:10px;color:var(--dim);margin-left:auto;white-space:nowrap}
+
+/* TABLE */
+.tbl-wrap{background:var(--s1);border:1px solid var(--border);border-radius:var(--rl);overflow:hidden}
+table.st{width:100%;border-collapse:collapse;font-size:12px}
+.st th{background:var(--s2);border-bottom:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.1em;padding:9px 10px;text-align:left;text-transform:uppercase;white-space:nowrap}
+.st th.c,.st td.c{text-align:center}
+.st tbody tr.sr{border-bottom:1px solid var(--border-lo);cursor:pointer;transition:background .1s}
+.st tbody tr.sr:hover{background:var(--s2)}
+.st tbody tr.sr.rr{border-left:3px solid var(--purple)}
+.st tbody tr.sr.rr:hover{background:var(--purple-dim)}
+.st tbody tr.sr.open-r{background:var(--s2)}
+.st td{padding:9px 10px;vertical-align:middle}
+.snum{font-family:var(--mono);font-size:10px;color:var(--dim);display:flex;align-items:center;gap:5px}
+.exp-ic{color:var(--dim);font-size:9px;transition:transform .2s;display:inline-block}
+.open-r .exp-ic{transform:rotate(90deg)}
+.gbadge{display:inline-block;border-radius:3px;font-size:9px;font-weight:700;letter-spacing:.05em;padding:2px 5px;white-space:nowrap}
+.gk2{background:var(--c3-bg);color:var(--c3)} .g35{background:var(--accent-dim);color:var(--accent)}
+.g68{background:var(--c2-bg);color:var(--c2)} .g912{background:var(--c1-bg);color:var(--c1)}
+.ghe{background:var(--purple-dim);color:var(--purple)}
+.sname{font-weight:600;color:var(--text);font-size:12px}
+.sfail{color:var(--muted);font-size:11px;max-width:240px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbadge{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:4px;font-family:var(--mono);font-size:12px;font-weight:800}
+.sb3{background:var(--c3-bg);color:var(--c3);border:1px solid var(--c3-br)}
+.sb2{background:var(--c2-bg);color:var(--c2);border:1px solid var(--c2-br)}
+.sb1{background:var(--c1-bg);color:var(--c1);border:1px solid var(--c1-br)}
+.sb0{background:var(--c0-bg);color:var(--c0);border:1px solid var(--c0-br)}
+.rep-v{font-family:var(--mono);font-size:10px;font-weight:600}
+.rv-p{color:var(--c3)} .rv-f{color:var(--c0)} .rv-m{color:var(--c2)}
+.dlt{font-family:var(--mono);font-size:12px;font-weight:800}
+.dlt-n{color:var(--purple)} .dlt-z{color:var(--dim)} .dlt-p{color:var(--c3)}
+.reg-badge{background:var(--purple-dim);border:1px solid rgba(168,85,247,.35);border-radius:3px;color:var(--purple);font-size:8px;font-weight:800;letter-spacing:.06em;padding:1px 5px;text-transform:uppercase}
+.gap-tag{display:inline-block;border-radius:3px;font-size:8px;font-weight:700;letter-spacing:.06em;padding:1px 5px;text-transform:uppercase}
+.gr-rf{background:var(--c0-bg);color:var(--c0);border:1px solid var(--c0-br)}
+.gr-au{background:var(--c2-bg);color:var(--c2);border:1px solid var(--c2-br)}
+.gr-ca{background:var(--c3-bg);color:var(--c3);border:1px solid var(--c3-br)}
+.gr-pr{background:rgba(96,165,250,.1);color:#60A5FA;border:1px solid rgba(96,165,250,.3)}
+.gr-bc{background:var(--c1-bg);color:var(--c1);border:1px solid var(--c1-br)}
+.kit-tag{background:var(--c3-bg);color:var(--c3);border:1px solid var(--c3-br);border-radius:3px;font-size:8px;font-weight:700;letter-spacing:.06em;padding:1px 5px;text-transform:uppercase}
+.hab-tag{background:rgba(96,165,250,.1);color:#60A5FA;border:1px solid rgba(96,165,250,.3);border-radius:3px;font-size:8px;font-weight:700;letter-spacing:.06em;padding:1px 5px;text-transform:uppercase}
+
+/* DETAIL ROW */
+.detail-tr{display:none;background:var(--s3)}
+.detail-tr.open{display:table-row}
+.detail-tr td{padding:18px 24px}
+.det-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:20px}
+.det-sec-title{font-family:var(--mono);font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.det-fail{font-style:italic;color:var(--text);font-size:12px;line-height:1.5;margin-bottom:10px}
+.det-text{font-size:11px;color:var(--muted);line-height:1.55}
+.mini-table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10px}
+.mini-table th{color:var(--dim);font-size:9px;padding:3px 6px;text-align:left;border-bottom:1px solid var(--border)}
+.mini-table td{padding:3px 6px;border-bottom:1px solid rgba(28,51,80,.5)}
+.mini-table .vn{color:var(--muted)}
+.mini-table .vv{text-align:right;font-weight:700}
+.vv-hi{color:var(--c3)} .vv-lo{color:var(--c0)} .vv-mid{color:var(--c2)} .vv-nm{color:var(--muted)}
+.det-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}
+.rep-result-row{margin-top:10px;padding-top:8px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.rep-result-label{font-size:9px;font-family:var(--mono);color:var(--dim);text-transform:uppercase;letter-spacing:.08em}
+.rep-result-val{font-family:var(--mono);font-size:14px;font-weight:800}
+.thr-pill{border-radius:3px;font-family:var(--mono);font-size:8px;font-weight:700;letter-spacing:.08em;padding:2px 6px;text-transform:uppercase}
+.tp-p{background:var(--c3-bg);color:var(--c3)} .tp-f{background:var(--c0-bg);color:var(--c0)}
+
+/* REGRESSION TAB */
+.reg-card{background:var(--s1);border:1px solid rgba(168,85,247,.3);border-left:4px solid var(--purple);border-radius:var(--rl);padding:24px;margin-bottom:18px}
+.reg-card-hdr{display:flex;align-items:baseline;gap:14px;margin-bottom:14px}
+.reg-num{font-family:var(--mono);font-size:32px;font-weight:800;color:var(--purple);line-height:1}
+.reg-title{font-size:16px;font-weight:700}
+.reg-grade{font-size:11px;color:var(--muted);margin-top:2px}
+.score-flow{display:flex;align-items:center;gap:14px;margin-bottom:16px}
+.sf-item{text-align:center}
+.sf-lbl{font-family:var(--mono);font-size:9px;color:var(--dim);text-transform:uppercase;letter-spacing:.08em;margin-bottom:4px}
+.sf-arrow{font-size:22px;color:var(--purple)}
+.rep-flow{font-family:var(--mono);font-size:12px;margin-bottom:14px}
+.rf-from{color:var(--c3)} .rf-arr{color:var(--muted);margin:0 6px} .rf-to{color:var(--c0)}
+.reg-body{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.reg-sec-title{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.reg-text{font-size:12px;color:var(--muted);line-height:1.6}
+.reg-fail{font-style:italic;font-size:13px;color:var(--text);line-height:1.5;margin-bottom:10px}
+.decay-factors{margin-top:12px}
+.df-item{display:flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-bottom:5px}
+.df-dot{width:6px;height:6px;border-radius:50%;background:var(--purple);flex-shrink:0}
+
+/* FINDINGS TAB */
+.find-card{background:var(--s1);border:1px solid var(--border);border-radius:var(--rl);padding:22px;margin-bottom:14px}
+.find-lbl{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+.find-title{font-size:14px;font-weight:700;margin-bottom:8px}
+.find-text{font-size:12px;color:var(--muted);line-height:1.65}
+
+.gap-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.gap-tbl th{background:var(--s2);border-bottom:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;padding:8px 12px;text-align:left;text-transform:uppercase}
+.gap-tbl td{border-bottom:1px solid var(--border-lo);padding:10px 12px;color:var(--muted);vertical-align:top}
+.gap-tbl td:first-child{white-space:nowrap}
+.kit-ex-tbl{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}
+.kit-ex-tbl th{background:var(--s2);border-bottom:1px solid var(--border);color:var(--muted);font-size:9px;font-weight:700;letter-spacing:.08em;padding:8px 12px;text-align:left;text-transform:uppercase}
+.kit-ex-tbl td{border-bottom:1px solid var(--border-lo);padding:9px 12px;color:var(--muted);vertical-align:middle}
+.score-transition-cell{display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px}
+.st-arr{color:var(--c3);font-size:14px}
+
+/* NO RESULTS */
+.no-res{text-align:center;padding:40px 20px;color:var(--dim);font-family:var(--mono);font-size:11px}
+
+/* FOOTER */
+.ftr{border-top:1px solid var(--border);padding:18px 32px;text-align:center;margin-top:40px}
+.ftr-txt{font-family:var(--mono);font-size:10px;color:var(--dim);letter-spacing:.04em}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .main{padding:16px}
+  .ov-hero{grid-template-columns:1fr}
+  .ov-divider-col{flex-direction:row;justify-content:center;padding:4px 0}
+  .vs-line{flex:none;width:60px;height:1px}
+  .det-grid{grid-template-columns:1fr}
+  .reg-body{grid-template-columns:1fr}
+  .dist-row{grid-template-columns:80px 1fr}
+  .sfail{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="hdr-top">
+    <span class="hdr-badge">CRA-T REPORT</span>
+    <span class="hdr-title">ISTE × AVIXA — AV Training Failure Analysis</span>
+    <span class="hdr-sub">50-Scenario Dataset &nbsp;|&nbsp; REP₃₀ vs REP₃₆₅ &nbsp;|&nbsp; June 2026</span>
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" data-tab="overview">Overview</button>
+    <button class="tab-btn" data-tab="scenarios">Scenario Browser</button>
+    <button class="tab-btn" data-tab="regressions">Regression Analysis</button>
+    <button class="tab-btn" data-tab="findings">Findings &amp; Recommendations</button>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══════════════════════════════════════ OVERVIEW ═══════════════════════════════════════ -->
+<div class="tab-pane active" id="tab-overview">
+
+  <div class="ov-hero">
+    <div class="ov-model-card pd-card">
+      <div class="ov-model-label pd-lbl">MODEL A — REP₃₀</div>
+      <div class="ov-model-name">Classroom AV Essentials</div>
+      <div class="ov-model-meta">2-Day Professional Development &nbsp;|&nbsp; 30-Day Cognitive Delay</div>
+      <div class="ov-key-metric"><span class="okm-label">Threshold Pass Rate (≥75%)</span><span class="okm-val" style="color:var(--accent)">72% &nbsp;<span style="font-size:12px;color:var(--muted)">36/50</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 3 — Full Resolution</span><span class="okm-val" style="color:var(--c3)">14 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(28%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 2 — Diminished Workaround</span><span class="okm-val" style="color:var(--c2)">11 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(22%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 1 — Minor Mitigation</span><span class="okm-val" style="color:var(--c1)">11 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(22%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 0 — Total Abandonment</span><span class="okm-val" style="color:var(--c0)">14 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(28%)</span></span></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <div class="ov-key-metric"><span class="okm-label">Mean Score</span><span class="okm-val" style="color:var(--text)">1.50 / 3.00</span></div>
+        <div class="ov-key-metric"><span class="okm-label">Positive PD Delta (Δ&gt;0)</span><span class="okm-val" style="color:var(--text)">37 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(74%)</span></span></div>
+        <div class="ov-key-metric"><span class="okm-label">Score 0 from Curriculum Gaps</span><span class="okm-val" style="color:var(--text)">14 / 14 &nbsp;<span style="font-size:11px;color:var(--muted)">(100%)</span></span></div>
+      </div>
+    </div>
+
+    <div class="ov-divider-col">
+      <div class="vs-line"></div>
+      <div class="vs-text">VS</div>
+      <div class="vs-line"></div>
+    </div>
+
+    <div class="ov-model-card fc-card">
+      <div class="ov-model-label fc-lbl">MODEL B — REP₃₆₅</div>
+      <div class="ov-model-name">AV Fundamentals for Educators</div>
+      <div class="ov-model-meta">14-Week / 12-Chapter Full Course &nbsp;|&nbsp; 365-Day Cognitive Delay</div>
+      <div class="ov-key-metric"><span class="okm-label">Threshold Pass Rate (≥75%)</span><span class="okm-val" style="color:var(--purple)">66% &nbsp;<span style="font-size:12px;color:var(--muted)">33/50</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 3 — Full Resolution</span><span class="okm-val" style="color:var(--c3)">14 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(28%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 2 — Diminished Workaround</span><span class="okm-val" style="color:var(--c2)">10 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(20%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 1 — Minor Mitigation</span><span class="okm-val" style="color:var(--c1)">9 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(18%)</span></span></div>
+      <div class="ov-key-metric"><span class="okm-label">Score 0 — Total Abandonment</span><span class="okm-val" style="color:var(--c0)">17 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(34%)</span></span></div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <div class="ov-key-metric"><span class="okm-label">Mean Score</span><span class="okm-val" style="color:var(--text)">1.42 / 3.00</span></div>
+        <div class="ov-key-metric"><span class="okm-label">Regression Scenarios (Δ &lt; 0)</span><span class="okm-val" style="color:var(--purple)">3 / 50 &nbsp;<span style="font-size:11px;color:var(--muted)">(Scenarios 3, 25, 26)</span></span></div>
+        <div class="ov-key-metric"><span class="okm-label">Net Mean Score Δ vs REP₃₀</span><span class="okm-val" style="color:var(--c0)">−0.08 ↓</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISTRIBUTION BARS -->
+  <div class="dist-section">
+    <div class="sec-lbl">Score Distribution Comparison</div>
+    <div class="dist-row" style="margin-bottom:14px">
+      <div class="dist-row-label" style="font-size:10px;color:var(--accent)">PD / 30-Day</div>
+      <div class="dist-bar-wrap">
+        <div class="db d3" style="width:28%">3 &nbsp;28%</div>
+        <div class="db d2" style="width:22%">2 &nbsp;22%</div>
+        <div class="db d1" style="width:22%">1 &nbsp;22%</div>
+        <div class="db d0" style="width:28%">0 &nbsp;28%</div>
+      </div>
+      <div class="dist-row-label" style="font-size:10px;color:var(--purple)">FC / 365-Day</div>
+      <div class="dist-bar-wrap">
+        <div class="db d3" style="width:28%">3 &nbsp;28%</div>
+        <div class="db d2" style="width:20%">2 &nbsp;20%</div>
+        <div class="db d1" style="width:18%">1 &nbsp;18%</div>
+        <div class="db d0" style="width:34%">0 &nbsp;34%</div>
+      </div>
+      <div></div>
+    </div>
+    <div class="dist-legend">
+      <div class="dl-item"><div class="dl-dot" style="background:var(--c3)"></div>Score 3 — Full Resolution</div>
+      <div class="dl-item"><div class="dl-dot" style="background:var(--c2)"></div>Score 2 — Diminished Workaround</div>
+      <div class="dl-item"><div class="dl-dot" style="background:var(--c1)"></div>Score 1 — Minor Mitigation</div>
+      <div class="dl-item"><div class="dl-dot" style="background:var(--c0)"></div>Score 0 — Total Abandonment</div>
+    </div>
+  </div>
+
+  <!-- STAT GRID -->
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--c3)">14 = 14</div>
+      <div class="stat-lbl">Score 3 Parity (30d vs 365d)</div>
+      <div class="stat-delta" style="color:var(--c3)">Δ = 0 — identical ceiling</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--purple)">+3</div>
+      <div class="stat-lbl">Score 0 Regressions at 365d</div>
+      <div class="stat-delta" style="color:var(--c0)">14 → 17 Total Abandonment</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--c0)">−6%</div>
+      <div class="stat-lbl">Pass Rate Decay (72% → 66%)</div>
+      <div class="stat-delta" style="color:var(--muted)">36/50 → 33/50</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--muted)">−0.08</div>
+      <div class="stat-lbl">Mean Score Decay</div>
+      <div class="stat-delta" style="color:var(--muted)">1.50 → 1.42</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--c0)">14/14</div>
+      <div class="stat-lbl">Original Score-0 Unchanged</div>
+      <div class="stat-delta" style="color:var(--muted)">All specialist gaps persist</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--c3)">+5</div>
+      <div class="stat-lbl">Kit Expansion Upgrades (PD)</div>
+      <div class="stat-delta" style="color:var(--c3)">Score 3 → 19/50 with additions</div>
+    </div>
+  </div>
+
+  <!-- FORMULA COMPARISON TABLE -->
+  <div class="sec-lbl">REP Formula Variable Comparison</div>
+  <div class="sec-desc">How the seven cognitive probability variables shift between the 30-day and 365-day models. The Rbase halving is the primary driver of regression; expanded Salign and Pprime ceilings offset it for habit-encoded scenarios only.</div>
+  <div class="formula-compare">
+    <div class="fc-head">
+      <div class="fc-cell">Variable</div>
+      <div class="fc-cell">Full Name</div>
+      <div class="fc-cell accent">REP₃₀ Range</div>
+      <div class="fc-cell purple">REP₃₆₅ Range</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Rbase</div>
+      <div class="fc-cell-desc">Long-Term Retention Baseline</div>
+      <div class="fc-cell-val fv-mid">Fixed 0.70</div>
+      <div class="fc-cell-val fv-lo">Fixed 0.35 ↓ (Ebbinghaus 1yr decay)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Salign</div>
+      <div class="fc-cell-desc">Schema Alignment / Frequency of Use</div>
+      <div class="fc-cell-val fv-unch">0.5 – 1.2</div>
+      <div class="fc-cell-val fv-hi">0.4 – 2.0 ↑ (wider ceiling for daily habits)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Ccomp</div>
+      <div class="fc-cell-desc">Sequential Rigidity</div>
+      <div class="fc-cell-val fv-unch">0.6 – 1.0</div>
+      <div class="fc-cell-val fv-lo">0.4 – 1.0 ↓ (catastrophic step-omission at 1yr)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Ese</div>
+      <div class="fc-cell-desc">Self-Efficacy Modifier</div>
+      <div class="fc-cell-val fv-unch">1.0 – 1.3</div>
+      <div class="fc-cell-val fv-lo">0.8 – 1.2 ↓ (alienation amplified at longer interval)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Pprime</div>
+      <div class="fc-cell-desc">Experiential Priming</div>
+      <div class="fc-cell-val fv-unch">1.0 – 1.2</div>
+      <div class="fc-cell-val fv-hi">1.0 – 1.4 ↑ (rewards deep survival-failure anchors)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">Ccontext</div>
+      <div class="fc-cell-desc">Context Reinstatement</div>
+      <div class="fc-cell-val fv-unch">1.0 – 1.2</div>
+      <div class="fc-cell-val fv-lo">0.8 – 1.3 ↓/↑ (non-podium now actively penalises)</div>
+    </div>
+    <div class="fc-row">
+      <div class="fc-cell-var">ERP</div>
+      <div class="fc-cell-desc">Expertise Reversal / Training Penalty</div>
+      <div class="fc-cell-val fv-unch">0.7 – 1.0</div>
+      <div class="fc-cell-val fv-lo">0.5 – 1.0 ↓ (passive traces non-retrievable at 1yr)</div>
+    </div>
+  </div>
+
+</div><!-- /overview -->
+
+<!-- ═══════════════════════════════════════ SCENARIOS ═══════════════════════════════════════ -->
+<div class="tab-pane" id="tab-scenarios">
+  <div class="sec-lbl">All 50 Scenarios</div>
+  <div class="sec-desc">Click any row to expand full failure description, REP formula variables, and cognitive justification for both models. Filter by grade band, score outcome, or search by subject or keyword.</div>
+
+  <div class="scen-controls">
+    <input type="text" class="search-box" id="scen-search" placeholder="Search subject or failure…">
+    <div class="fg" id="grade-filters">
+      <button class="chip gk2 on" data-grade="k2">K–2</button>
+      <button class="chip g35 on" data-grade="35">3–5</button>
+      <button class="chip g68 on" data-grade="68">6–8</button>
+      <button class="chip g912 on" data-grade="912">9–12</button>
+      <button class="chip ghe on" data-grade="he">Higher Ed</button>
+    </div>
+    <div class="fg" id="score-filters">
+      <button class="chip on" data-score="3" style="background:var(--c3-bg);border-color:var(--c3);color:var(--c3)">Score 3</button>
+      <button class="chip on" data-score="2" style="background:var(--c2-bg);border-color:var(--c2);color:var(--c2)">Score 2</button>
+      <button class="chip on" data-score="1" style="background:var(--c1-bg);border-color:var(--c1);color:var(--c1)">Score 1</button>
+      <button class="chip on" data-score="0" style="background:var(--c0-bg);border-color:var(--c0);color:var(--c0)">Score 0</button>
+    </div>
+    <button class="chip reg-chip" id="reg-filter">◀ Regressions Only</button>
+    <span class="count-txt" id="count-label">50 of 50</span>
+  </div>
+
+  <div class="tbl-wrap">
+    <table class="st">
+      <thead>
+        <tr>
+          <th style="width:52px">#</th>
+          <th style="width:80px">Grade</th>
+          <th style="width:140px">Subject</th>
+          <th>Failure</th>
+          <th class="c" style="width:68px">REP₃₀</th>
+          <th class="c" style="width:46px">S₃₀</th>
+          <th class="c" style="width:68px">REP₃₆₅</th>
+          <th class="c" style="width:46px">S₃₆₅</th>
+          <th class="c" style="width:36px">Δ</th>
+          <th class="c" style="width:56px">Pre</th>
+          <th style="width:80px">Tags</th>
+        </tr>
+      </thead>
+      <tbody id="scen-tbody">
+      </tbody>
+    </table>
+    <div class="no-res" id="no-results" style="display:none">No scenarios match your current filters.</div>
+  </div>
+</div><!-- /scenarios -->
+
+<!-- ═══════════════════════════════════════ REGRESSIONS ═══════════════════════════════════════ -->
+<div class="tab-pane" id="tab-regressions">
+  <div class="sec-lbl">Regression Analysis</div>
+  <div class="sec-title">The Fragile-Middle Scenarios</div>
+  <div class="sec-desc">Three scenarios held above the 75% REP threshold at 30 days but collapsed below it at 365 days. These represent the "fragile middle" — moderate-difficulty diagnostics with sufficient PD-derived knowledge for short-term retention but insufficient habituation or self-efficacy anchors to survive a full year of non-reinforcement. They are the primary evidence for a targeted 6–9 month refresher cycle.</div>
+
+  <!-- REGRESSION 1: S3 -->
+  <div class="reg-card">
+    <div class="reg-card-hdr">
+      <div class="reg-num">03</div>
+      <div>
+        <div class="reg-title">Science / Nature Study &nbsp;<span class="reg-badge">◀ REGRESSION</span></div>
+        <div class="reg-grade">K–2 &nbsp;|&nbsp; Score 2 (REP₃₀) → Score 0 (REP₃₆₅)</div>
+      </div>
+    </div>
+    <div class="score-flow">
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₀ Score</div>
+        <div class="sbadge sb2" style="width:40px;height:40px;font-size:18px">2</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₆₅ Score</div>
+        <div class="sbadge sb0" style="width:40px;height:40px;font-size:18px">0</div>
+      </div>
+    </div>
+    <div class="rep-flow"><span class="rf-from">REP₃₀: 100%  PASSED</span><span class="rf-arr">→</span><span class="rf-to">REP₃₆₅: 67.2%  FAILED (below 75% threshold)</span></div>
+    <div class="reg-body">
+      <div>
+        <div class="reg-sec-title">Failure Scenario</div>
+        <div class="reg-fail">Bent VGA cable pin at monitor connector — total loss of green color channel; image displays in purple and pink tones</div>
+        <div class="reg-text">At 30 days, the Module 4 signal chain diagnostic successfully bridges the gap between a software-seeming symptom (color loss) and a physical cable failure. The educator lacks a spare VGA cable but the trained diagnostic still enables a Score 2 workaround. At 365 days, this trace has degraded below the pass threshold.</div>
+      </div>
+      <div>
+        <div class="reg-sec-title">Decay Mechanism</div>
+        <div class="decay-factors">
+          <div class="df-item"><div class="df-dot"></div><strong>Pprime collapses to 1.0:</strong> The specific VGA pin-to-color-channel mapping is purely PD-derived knowledge with no multi-year survival anchor — it vanishes at 365 days.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Ccontext drops to 0.8:</strong> The VGA connector is not on the primary podium faceplate — it's at a monitor rear panel, depressing context reinstatement.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>REP₃₆₅ = 67.2%:</strong> Just below the 75% pass threshold. The educator checks the cable on instinct (Salign 2.0) but cannot identify the green-channel-to-bent-pin mapping. Score drops to 0.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Intervention:</strong> A 6-month refresher review of VGA pin-group color channel assignments would restore the specific diagnostic knowledge that closes the gap.</div>
+        </div>
+        <div style="margin-top:14px">
+          <div class="mini-table" style="margin-bottom:0">
+            <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10px">
+              <thead><tr><th style="padding:3px 6px;color:var(--dim);border-bottom:1px solid var(--border)">Variable</th><th style="padding:3px 6px;text-align:right;color:var(--accent);border-bottom:1px solid var(--border)">REP₃₀</th><th style="padding:3px 6px;text-align:right;color:var(--purple);border-bottom:1px solid var(--border)">REP₃₆₅</th></tr></thead>
+              <tbody>
+                <tr><td style="padding:3px 6px;color:var(--muted)">Rbase</td><td style="padding:3px 6px;text-align:right;color:var(--c2)">0.70</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.35</td></tr>
+                <tr><td style="padding:3px 6px;color:var(--muted)">Salign</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.2</td><td style="padding:3px 6px;text-align:right;color:var(--c3)">2.0</td></tr>
+                <tr><td style="padding:3px 6px;color:var(--muted)">Pprime</td><td style="padding:3px 6px;text-align:right;color:var(--c3)">1.2</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">1.0 ↓</td></tr>
+                <tr><td style="padding:3px 6px;color:var(--muted)">Ccontext</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.0</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.8 ↓</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGRESSION 2: S25 -->
+  <div class="reg-card">
+    <div class="reg-card-hdr">
+      <div class="reg-num">25</div>
+      <div>
+        <div class="reg-title">Introduction to Robotics &nbsp;<span class="reg-badge">◀ REGRESSION</span></div>
+        <div class="reg-grade">Grades 6–8 &nbsp;|&nbsp; Score 1 (REP₃₀) → Score 0 (REP₃₆₅)</div>
+      </div>
+    </div>
+    <div class="score-flow">
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₀ Score</div>
+        <div class="sbadge sb1" style="width:40px;height:40px;font-size:18px">1</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₆₅ Score</div>
+        <div class="sbadge sb0" style="width:40px;height:40px;font-size:18px">0</div>
+      </div>
+    </div>
+    <div class="rep-flow"><span class="rf-from">REP₃₀: 100%  PASSED</span><span class="rf-arr">→</span><span class="rf-to">REP₃₆₅: 44.8%  FAILED (well below 75% threshold)</span></div>
+    <div class="reg-body">
+      <div>
+        <div class="reg-sec-title">Failure Scenario</div>
+        <div class="reg-fail">50-foot passive HDMI cable through ceiling conduit suffers signal attenuation — projector loses sync every few minutes; blinking black screen with foot traffic</div>
+        <div class="reg-text">At 30 days, the educator can file a precise IT ticket citing passive HDMI attenuation at 50 feet and requesting an active cable or HDBaseT extender — earning Score 1. The ceiling conduit cable is a Hard Architectural Boundary (no physical repair available). At 365 days, the precise diagnostic vocabulary has degraded.</div>
+      </div>
+      <div>
+        <div class="reg-sec-title">Decay Mechanism</div>
+        <div class="decay-factors">
+          <div class="df-item"><div class="df-dot"></div><strong>Pprime stays at 1.0:</strong> The passive-HDMI-at-50-feet distance limit is purely PD-derived with no habituated survival anchor. No multi-year experience primes this diagnosis.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Ese drops to 0.8:</strong> The ceiling conduit infrastructure creates system alienation — the educator feels no sense of control over a cable they cannot access.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Ccontext drops to 0.8:</strong> The failure is in the ceiling, not at the podium. No visible connection point to inspect.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>REP₃₆₅ = 44.8%:</strong> The educator observes the dropout but reports a vague "HDMI problem" rather than the specific "passive HDMI attenuation — active extender required" language needed for Score 1.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Intervention:</strong> A laminated signal-path reference card at the podium listing the 25-30ft passive HDMI limit would function as a permanent point-of-action job aid independent of memory.</div>
+        </div>
+        <div style="margin-top:14px">
+          <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10px">
+            <thead><tr><th style="padding:3px 6px;color:var(--dim);border-bottom:1px solid var(--border)">Variable</th><th style="padding:3px 6px;text-align:right;color:var(--accent);border-bottom:1px solid var(--border)">REP₃₀</th><th style="padding:3px 6px;text-align:right;color:var(--purple);border-bottom:1px solid var(--border)">REP₃₆₅</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Rbase</td><td style="padding:3px 6px;text-align:right;color:var(--c2)">0.70</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.35</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Pprime</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.2</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">1.0 ↓</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Ese</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.0</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.8 ↓</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Ccontext</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.0</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.8 ↓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- REGRESSION 3: S26 -->
+  <div class="reg-card">
+    <div class="reg-card-hdr">
+      <div class="reg-num">26</div>
+      <div>
+        <div class="reg-title">Health &amp; Nutrition &nbsp;<span class="reg-badge">◀ REGRESSION</span></div>
+        <div class="reg-grade">Grades 6–8 &nbsp;|&nbsp; Score 1 (REP₃₀) → Score 0 (REP₃₆₅)</div>
+      </div>
+    </div>
+    <div class="score-flow">
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₀ Score</div>
+        <div class="sbadge sb1" style="width:40px;height:40px;font-size:18px">1</div>
+      </div>
+      <div class="sf-arrow">→</div>
+      <div class="sf-item">
+        <div class="sf-lbl">REP₃₆₅ Score</div>
+        <div class="sbadge sb0" style="width:40px;height:40px;font-size:18px">0</div>
+      </div>
+    </div>
+    <div class="rep-flow"><span class="rf-from">REP₃₀: 100%  PASSED</span><span class="rf-arr">→</span><span class="rf-to">REP₃₆₅: 62.7%  FAILED (below 75% threshold)</span></div>
+    <div class="reg-body">
+      <div>
+        <div class="reg-sec-title">Failure Scenario</div>
+        <div class="reg-fail">IR sensor window on wall-mounted TV scratched and clouded — remote control commands fail to register; teacher has no ladder to reach the manual controls on the TV body</div>
+        <div class="reg-text">At 30 days, the educator uses the kit's AA batteries to confirm battery failure is not the cause, then precisely identifies the scratched IR sensor window — earning Score 1 for a specific IT ticket. At 365 days, this specific diagnosis degrades to a vague report that cannot qualify for Score 1.</div>
+      </div>
+      <div>
+        <div class="reg-sec-title">Decay Mechanism</div>
+        <div class="decay-factors">
+          <div class="df-item"><div class="df-dot"></div><strong>Strong Pprime (1.4) is not enough:</strong> The remote-failure survival anchor is robust, but it only drives the first diagnostic step (check batteries). The specific IR-sensor-scratch diagnosis requires PD knowledge that has degraded.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Ese = 0.8:</strong> The wall-mounted TV position (inaccessible without a ladder) creates system alienation. The educator cannot reach the device and feels no control.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Ccontext = 0.8:</strong> The TV is wall-mounted and off-podium — no familiar physical control point to reinstate the diagnostic context.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>REP₃₆₅ = 62.7%:</strong> The educator installs fresh batteries (passes), but cannot name the specific fault. The IT ticket reads "remote doesn't work" instead of "scratched IR sensor window on wall-mounted TV" — too vague for Score 1 qualification.</div>
+          <div class="df-item"><div class="df-dot"></div><strong>Intervention:</strong> A quick "IR Remote Failure Checklist" in the module 4 refresher — batteries → IR sensor window → receiver line-of-sight — restores the precise diagnostic chain.</div>
+        </div>
+        <div style="margin-top:14px">
+          <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:10px">
+            <thead><tr><th style="padding:3px 6px;color:var(--dim);border-bottom:1px solid var(--border)">Variable</th><th style="padding:3px 6px;text-align:right;color:var(--accent);border-bottom:1px solid var(--border)">REP₃₀</th><th style="padding:3px 6px;text-align:right;color:var(--purple);border-bottom:1px solid var(--border)">REP₃₆₅</th></tr></thead>
+            <tbody>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Rbase</td><td style="padding:3px 6px;text-align:right;color:var(--c2)">0.70</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.35</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Pprime</td><td style="padding:3px 6px;text-align:right;color:var(--c3)">1.2</td><td style="padding:3px 6px;text-align:right;color:var(--c3)">1.4 ↑</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Ese</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.0</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.8 ↓</td></tr>
+              <tr><td style="padding:3px 6px;color:var(--muted)">Ccontext</td><td style="padding:3px 6px;text-align:right;color:var(--muted)">1.0</td><td style="padding:3px 6px;text-align:right;color:var(--c0)">0.8 ↓</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHARED REGRESSION PROFILE -->
+  <div class="find-card">
+    <div class="find-lbl">Shared Regression Profile</div>
+    <div class="find-title">What the Three Fragile-Middle Scenarios Have in Common</div>
+    <div class="find-text">All three regressions share a structural fingerprint: moderate-difficulty physical diagnostics (not abstract/backend specialist knowledge) that rely on PD-derived vocabulary rather than deep habituated survival anchors (Pprime = 1.0–1.0 at 365d), combined with non-podium physical location (Ccontext = 0.8) and some degree of system alienation (Ese = 0.8). They pass at 30 days because the PD session provides just enough cognitive scaffolding. They fail at 365 days because the Rbase halving from 0.70 to 0.35 removes the floor that was supporting them. None of the 14 original Score 0 scenarios (all specialist-domain failures) regressed — they were already at zero. The regressions came entirely from this fragile-middle tier. A targeted 6–9 month refresher module covering these three diagnostic scenarios — bent pin color-channel mapping, HDMI passive cable length limits, and IR sensor failure sequencing — is the minimum intervention to restore the 72% pass rate and prevent further floor erosion.</div>
+  </div>
+
+</div><!-- /regressions -->
+
+<!-- ═══════════════════════════════════════ FINDINGS ═══════════════════════════════════════ -->
+<div class="tab-pane" id="tab-findings">
+
+  <div class="sec-lbl">Comparative Analysis &amp; Key Findings</div>
+  <div class="sec-title">What the Two Models Tell Us Together</div>
+  <div class="sec-desc">The comparison between the 30-day PD model and the 365-day full course model surfaces four structural findings that have direct implications for program design, refresher scheduling, and curriculum scope.</div>
+
+  <div class="find-card">
+    <div class="find-lbl">Finding A</div>
+    <div class="find-title">Score 3 Parity — The Full Course Creates a Durable Ceiling</div>
+    <div class="find-text">The 14-week full course at 365 days preserves every Score 3 outcome that the 2-day PD produced at 30 days — identical at 14/50 in both analyses. The REP₃₆₅ model's wider Salign ceiling (2.0 vs 1.2) and higher Pprime ceiling (1.4 vs 1.2) precisely compensate for the halved Rbase (0.35 vs 0.70) in daily-habit scenarios. The scenarios that survive a full year intact share a common profile: they are tied to actions educators perform repeatedly (Salign 2.0), primed by high-stakes survival-failure memories (Pprime 1.4), and executable from visible primary podium controls (Ccontext 1.3). For these 14 scenarios, training depth produces a genuinely decay-proof competency floor — the investment in hands-on simulation (ERP 1.0) pays full dividends at one year. The implication is that curriculum design focused on these three attributes (daily use, survival anchor, podium-accessible fix) can identify which competencies will survive long retention intervals and which require periodic reinforcement.</div>
+  </div>
+
+  <div class="find-card">
+    <div class="find-lbl">Finding B</div>
+    <div class="find-title">Time Defeats Depth for the Fragile Middle</div>
+    <div class="find-text">Three scenarios (3, 25, 26) that held above the 75% REP threshold at 30 days fall below it at 365 days, dropping from the pass column to Score 0. This is the most counterintuitive result of the entire analysis: a significantly more comprehensive 14-week curriculum produces more Score 0 outcomes than the condensed 2-day PD at the 1-year interval. The explanation is not quality of instruction — it is time elapsed and the absence of any reinforcement mechanism. The fragile-middle scenarios share a physical, non-podium diagnostic requirement (Ccontext 0.8) with PD-specific vocabulary (Pprime 1.0) and system alienation from inaccessible hardware (Ese 0.8). The Rbase halving tips these three scenarios over the threshold edge at 1 year. No curriculum redesign prevents this without a dedicated refresher intervention at 6–9 months post-training. The 6% pass rate gap between the PD model and the full course model is explained entirely by these three regressions and the unchanged 14 specialist-domain Score 0 failures.</div>
+  </div>
+
+  <div class="find-card">
+    <div class="find-lbl">Finding C</div>
+    <div class="find-title">The Specialist Knowledge Floor is Structurally Immovable</div>
+    <div class="find-text">All 14 scenarios that scored 0 at 30 days remain at Score 0 at 365 days, without exception. These fall into four specialist-domain curriculum gaps: RF/wireless spectrum management (Scenarios 10, 42), professional audio signal engineering (Scenarios 15, 18, 19, 28, 35, 40), backend hardware protocol/EDID configuration (Scenarios 8, 29, 38, 47), and broadcast/specialist lighting (Scenario 48). These domains are impervious to either training depth or elapsed time because they represent knowledge that is structurally absent from both curricula. Increasing course length to 20 weeks or 30 weeks would not change a single Score 0 outcome unless the specialist modules were added. The REP₃₆₅ formula further penalises these scenarios at 1 year (REP values collapse to 3.6%–5.8% vs 14.7%–42.3% at REP₃₀), but they were already at total abandonment — the penalty applies to an already-failed scenario. The only path from Score 0 for these scenarios is dedicated specialist sub-modules or permanent point-of-action job aids such as laminated classroom infographics.</div>
+  </div>
+
+  <div class="find-card">
+    <div class="find-lbl">Finding D</div>
+    <div class="find-title">Kit Adequacy Is Time-Invariant — and Structurally Limited</div>
+    <div class="find-text">The educator's Proactive AV Tech Kit (spare HDMI cable, USB-C to HDMI dongle, USB-C to USB-A cable, IEC power cord, AA/AAA batteries) produces exactly the same hardware resolution outcomes at 365 days as at 30 days. Kit items either work or they don't — they are not subject to cognitive decay. No kit items address the three regression scenarios (3, 25, 26). Kit expansion with electrical tape, zip ties, and a USB-A to USB-B cable would upgrade 5 scenarios (7, 14, 23, 31, 39) from Score 2 or Score 1 to Score 3 at both time intervals — a 10% jump in Full Resolution rate for approximately $6 in additional items. Critically, no kit expansion of any kind addresses the 14 specialist-domain Score 0 scenarios. The Score 0 floor is exclusively a curriculum problem, not a kit problem. This distinction is foundational to remediation planning: the two levers are independent and address different failure classes.</div>
+  </div>
+
+  <hr class="hr">
+  <div class="sec-lbl">Curriculum Gap Taxonomy</div>
+  <div class="sec-desc">The 14 Score-0 scenarios across both models cluster into four specialist domains. A targeted 40–50 minute curriculum addition distributed across existing modules would convert all 14 to Score 1 or higher.</div>
+
+  <div class="find-card" style="padding:0;overflow:hidden">
+    <table class="gap-tbl">
+      <thead><tr><th style="width:130px">Gap Category</th><th style="width:140px">Affected Scenarios</th><th>Count</th><th>Recommended Module Addition</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="gap-tag gr-rf">RF/Wireless</span></td>
+          <td><span style="font-family:var(--mono);font-size:11px">S10, S42</span></td>
+          <td><span style="font-family:var(--mono)">2</span></td>
+          <td>10-min Module 9 segment: RF interference recognition, manual frequency channel change, transmitter-receiver re-sync procedure</td>
+        </tr>
+        <tr>
+          <td><span class="gap-tag gr-au">Specialist Audio</span></td>
+          <td><span style="font-family:var(--mono);font-size:11px">S15, S18, S19, S28, S35, S40</span></td>
+          <td><span style="font-family:var(--mono)">6</span></td>
+          <td>15-min Module 9 supplement: OS audio sample rate, line vs. mic input impedance tiers, Dolby Digital/PCM format selection, phantom power (+48V) management</td>
+        </tr>
+        <tr>
+          <td><span class="gap-tag gr-ca">Cable Spec</span></td>
+          <td><span style="font-family:var(--mono);font-size:11px">S8, S29</span></td>
+          <td><span style="font-family:var(--mono)">2</span></td>
+          <td>5-min Module 4 addition: USB HID peripheral mechanical failures (keyboard shortcut workarounds); USB passive extension max length 16ft/5m; active extension required for touch panels over 10ft</td>
+        </tr>
+        <tr>
+          <td><span class="gap-tag gr-pr">Backend Protocol</span></td>
+          <td><span style="font-family:var(--mono);font-size:11px">S17, S38, S47</span></td>
+          <td><span style="font-family:var(--mono)">3</span></td>
+          <td>8-min Module 4/11 supplement: vendor-agnostic IWB calibration for mount-shift; EDID explanation (blackout on input change = EDID management required); hardware scaler box independent menus</td>
+        </tr>
+        <tr>
+          <td><span class="gap-tag gr-bc">Broadcast</span></td>
+          <td><span style="font-family:var(--mono);font-size:11px">S48</span></td>
+          <td><span style="font-family:var(--mono)">1</span></td>
+          <td>DMX-512 termination note for production/journalism environments only — a dedicated professional broadcast module would be required for full resolution</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="hr">
+  <div class="sec-lbl">Kit Expansion Analysis</div>
+  <div class="sec-desc">Three additional items at ~$6 total cost upgrade 5 scenarios from Score 1–2 to Score 3 at both 30 and 365 days. The Score 0 floor is not addressable by any kit item.</div>
+
+  <div class="find-card" style="padding:0;overflow:hidden">
+    <table class="kit-ex-tbl">
+      <thead><tr><th>Scenario</th><th>Subject</th><th>Add Item</th><th>Mechanism</th><th>Score Change</th><th>Cost</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span style="font-family:var(--mono);font-weight:700">S7</span></td>
+          <td>Storytelling &amp; Speech (K–2)</td>
+          <td>Electrical tape</td>
+          <td>Secures broken beltpack battery compartment latch door; battery contact maintained throughout teacher movement</td>
+          <td><div class="score-transition-cell"><span class="sbadge sb2" style="width:24px;height:24px;font-size:11px">2</span><span class="st-arr">→</span><span class="sbadge sb3" style="width:24px;height:24px;font-size:11px">3</span></div></td>
+          <td><span style="font-family:var(--mono)">~$1</span></td>
+        </tr>
+        <tr>
+          <td><span style="font-family:var(--mono);font-weight:700">S14</span></td>
+          <td>Life Sciences (3–5)</td>
+          <td>USB-A to USB-B cable</td>
+          <td>Direct replacement for frayed microscope USB 2.0 cable; USB-B is the universal device-end connector on lab microscopes and instruments</td>
+          <td><div class="score-transition-cell"><span class="sbadge sb2" style="width:24px;height:24px;font-size:11px">2</span><span class="st-arr">→</span><span class="sbadge sb3" style="width:24px;height:24px;font-size:11px">3</span></div></td>
+          <td><span style="font-family:var(--mono)">~$3</span></td>
+        </tr>
+        <tr>
+          <td><span style="font-family:var(--mono);font-weight:700">S23</span></td>
+          <td>World History (6–8)</td>
+          <td>Electrical tape</td>
+          <td>Wraps around ethernet cable and Apple TV body, pressing cable into broken-clip port with sustained mechanical contact</td>
+          <td><div class="score-transition-cell"><span class="sbadge sb2" style="width:24px;height:24px;font-size:11px">2</span><span class="st-arr">→</span><span class="sbadge sb3" style="width:24px;height:24px;font-size:11px">3</span></div></td>
+          <td><span style="font-family:var(--mono)">~$1</span></td>
+        </tr>
+        <tr>
+          <td><span style="font-family:var(--mono);font-weight:700">S31</span></td>
+          <td>Algebra II (9–12)</td>
+          <td>USB-A to USB-B cable</td>
+          <td>Laptop USB-A → USB-B cable → smartboard's accessible USB-B input port; removes faulty wall plate coupler from chain entirely</td>
+          <td><div class="score-transition-cell"><span class="sbadge sb1" style="width:24px;height:24px;font-size:11px">1</span><span class="st-arr">→</span><span class="sbadge sb3" style="width:24px;height:24px;font-size:11px">3</span></div></td>
+          <td><span style="font-family:var(--mono)">~$3</span></td>
+        </tr>
+        <tr>
+          <td><span style="font-family:var(--mono);font-weight:700">S39</span></td>
+          <td>World Geography (9–12)</td>
+          <td>Electrical tape</td>
+          <td>Re-secures detached IR extender eyeball to display bezel in the correct outward-facing orientation for the full class session</td>
+          <td><div class="score-transition-cell"><span class="sbadge sb2" style="width:24px;height:24px;font-size:11px">2</span><span class="st-arr">→</span><span class="sbadge sb3" style="width:24px;height:24px;font-size:11px">3</span></div></td>
+          <td><span style="font-family:var(--mono)">~$1</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="hr">
+  <div class="sec-lbl">Primary Conclusion</div>
+  <div class="find-card" style="border-color:rgba(168,85,247,.3);border-left:4px solid var(--purple)">
+    <div class="find-title" style="color:var(--purple)">Course Depth Cannot Substitute for Refresher Timing</div>
+    <div class="find-text">The full 14-week college course at 365 days matches the condensed 2-day professional development at 30 days on Score 3 outcomes (14 each), but the 1-year decay window results in Score 0 regressions for 3 scenarios that had been mitigated under the PD model and lowers the overall threshold pass rate from 72% to 66%, confirming that course depth alone cannot substitute for a 6–9 month refresher cycle on the fragile-middle diagnostic scenarios. The recommended intervention sequence is: (1) Add the four targeted curriculum modules (~40–50 min) to eliminate all 14 specialist-domain Score 0 failures; (2) Add electrical tape, USB-A to USB-B cable, and zip ties to the Proactive AV Tech Kit (~$6) for 5 additional Score 3 outcomes; (3) Implement a 6–9 month refresher module specifically targeting Scenarios 3, 25, and 26 to prevent the fragile-middle regression at the 1-year mark and restore the 72% pass rate floor.</div>
+  </div>
+
+</div><!-- /findings -->
+
+</div><!-- /main -->
+
+<div class="ftr">
+  <div class="ftr-txt">CRA-T Evaluation &nbsp;|&nbsp; ISTE × AVIXA &nbsp;|&nbsp; Classroom AV Essentials PD (REP₃₀) &amp; AV Fundamentals for Educators (REP₃₆₅) &nbsp;|&nbsp; 50-Scenario Dataset &nbsp;|&nbsp; June 2026 &nbsp;|&nbsp; Third-Party AI Evaluator</div>
+</div>
+
+<script>
+// ═══════════════ DATA ═══════════════
+// Fields: id, grade, gradeBand, subject, failure, rep30, s30, rep365, s365, delta, pre, kit, hab, regression, currGap, kitUp
+// rep30vars / rep365vars: [Rbase, Salign, Ccomp, Ese, Pprime, Ccontext, ERP]
+// currGap: null | 'RF' | 'Audio' | 'Cable' | 'Protocol' | 'Broadcast'
+// kitUp: boolean (kit expansion upgrades this to Score 3)
+
+const V = ['Rbase','Salign','Ccomp','Ese','Pprime','Ccontext','ERP'];
+
+const SCENARIOS = [
+{id:1,grade:'K–2',gb:'k2',sub:'Early Childhood Literacy',fail:'Loose USB data tether at wall plate — touch overlay calibration drift (6 inches off-center); screen displays image correctly',rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Module 4 signal chain diagnostic leads to wall plate USB tether; re-seating is Module 7 Step 3. Kit USB-C to USB-A cable provides backup swap if tether is defective.',j365:'Daily interactive-board use (Salign 2.0) and split-symptom survival anchor — correct image, broken touch — (Pprime 1.4) override halved Rbase. Kit USB-C to USB-A cable closes loop. Score 3 maintained.'},
+{id:2,grade:'K–2',gb:'k2',sub:'Introductory Mathematics',fail:"Accidental keystroke forces 720p output onto 16:9 native display — digital counting grid stretches horizontally; numbers illegible",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:0,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Module 8 Quick Diagnosis table names this exact fault: Partial image → Right-click → Display Settings → set to 1920×1080. Direct curriculum lookup, no kit item required.',j365:'Resolution distortion is the most universally habituated display failure anchor (Pprime 1.4, Salign 2.0). Right-click → Display Settings is motor-encoded. Score 3 maintained.'},
+{id:3,grade:'K–2',gb:'k2',sub:'Science / Nature Study',fail:'Bent VGA cable pin at monitor connector — total loss of green color channel; image displays in purple and pink tones',rep30:100,s30:2,rep365:67.2,s365:0,delta:-2,pre:0,kit:true,hab:false,reg:true,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.0,0.8,1.0],j30:'Educator correctly identifies bent VGA pin via Module 8 cable inspection but has no spare VGA cable. USB-C to HDMI adapter provides alternate path if doc camera has HDMI output.',j365:'REGRESSION (Score 2→0). Pprime collapses to 1.0 — color-channel-to-pin-group mapping is purely PD-derived with no survival anchor. Daily cable-check instinct fires but specific diagnosis has vanished. REP₃₆₅ = 67.2%, below 75% threshold.'},
+{id:4,grade:'K–2',gb:'k2',sub:'Music Exploration',fail:"Worn 3.5mm tablet headphone jack — audio channel drops mid-song; vocal track entirely lost, background music plays normally",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Module 9 audio output fix — switch OS audio from surround to stereo — may restore vocal track. Worn 3.5mm socket is hardware failure kit cannot address. No spare auxiliary cable in kit.',j365:'Audio dropout is a deep survival anchor (Pprime 1.4); surround-to-stereo toggle is habituated. REP₃₆₅ = 94.1%. No kit item addresses worn socket — hardware gap caps at Score 2 permanently.'},
+{id:5,grade:'K–2',gb:'k2',sub:'Art & Texture',fail:"Blown low-voltage inline fuse in motorized screen — screen fails to lower; image projects onto reflective cinderblock wall",rep30:100,s30:2,rep365:100,s365:2,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Blown inline fuse is a Hard Architectural Boundary. Module 7 Five-Minute Rule prevents wasted time; Module 12 LMS workaround preserves instructional continuity. Kit carries no fuses.',j365:'Pressing wall switch and observing no screen response is maximally habituated (Salign 2.0, Ccontext 1.3). HA Boundary — embedded fuse in screen housing requires facilities. REP₃₆₅ = 100% but score capped at 2 by infrastructure limit.'},
+{id:6,grade:'K–2',gb:'k2',sub:'Beginning Social Studies',fail:"HDMI splitter loses power via loose barrel connector — TV cycles through 'Searching for Signal' / black screen every 30 seconds",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Module 4 'Remove One Variable' logic: disconnect splitter, connect DVD player directly to TV using kit's spare 10' HDMI cable. The cycling dropout pattern points to the distribution node.",j365:'Every-30-second cycle correctly diagnoses distribution node (Pprime 1.4). Removing splitter and running kit HDMI direct to TV delivers Full Resolution. Score 3 maintained.'},
+{id:7,grade:'K–2',gb:'k2',sub:'Storytelling & Speech',fail:"Beltpack transmitter battery compartment latch broken — batteries shift connection when teacher bends down; loud pops and audio drops",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:true,v30:[0.70,1.2,1.0,1.3,1.2,1.2,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Educator lowers receiver gain (Module 9) and installs fresh kit AA batteries, but broken latch means beltpack continues losing contact during movement. No securing material in kit. Adding electrical tape → Score 3.',j365:'Wireless-mic dropout is a strongly habituated survival scenario (Pprime 1.4). Fresh battery replacement is a daily motor action. Broken latch cannot be secured without tape — kit gap caps at Score 2. Score 2 maintained at 365d.'},
+{id:8,grade:'K–2',gb:'k2',sub:'Introduction to Computers',fail:"Physical scroll wheel on demonstration mouse jammed with debris — cannot scroll through educational matching game; reboot ineffective",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Cable',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'Mechanical scroll wheel failure falls entirely outside AV signal-chain curriculum. REP₃₀ = 14.7%. Curriculum gap: a peripheral failure module with keyboard-shortcut workarounds would address this class.',j365:'Peripheral mechanical failure is fully outside AV curriculum scope at any depth. REP₃₆₅ collapses to 3.6% under triple low-value penalty (Salign 0.4, Ccomp 0.4, Ese 0.8). Score 0 maintained.'},
+{id:9,grade:'K–2',gb:'k2',sub:'Foreign Language Introduction',fail:"USB Bluetooth transmitter dongle partially unseated — audio reverts to low-volume internal laptop speakers; French alphabet song inaudible",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:1,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Module 9 Quick Diagnosis: 'No sound from laptop only → audio routed to internal speakers → Taskbar speaker icon → select HDMI Output or room display name.' Re-seating dongle restores hardware path.",j365:'Audio reverting to laptop speakers is the most recognisable audio routing failure (Pprime 1.4, Salign 2.0). Re-seat dongle + reselect audio output — two-step motor-encoded procedure intact at 365d. Score 3 maintained.'},
+{id:10,grade:'K–2',gb:'k2',sub:'Physical Movement & Health',fail:"Wireless handheld mic drops RF sync with portable PA — nearby classroom's matching frequency causes loud static interference",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'RF',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'RF frequency management is a backend wireless audio engineering operation entirely outside the PD curriculum. Auto-scan relocks to same conflicting channel after every power cycle. REP₃₀ = 14.7%.',j365:'RF intermodulation from co-channel device is a wireless engineering concept with no curriculum anchor. REP₃₆₅ = 3.6%. Score 0 maintained — 10-min manual-override RF channel module required to convert to Score 1.'},
+{id:11,grade:'3–5',gb:'35',sub:'English Language Arts',fail:"Active VGA-to-HDMI converter box overheats on podium — image artifacts with horizontal digital lines, then total video signal loss",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Module 11 thermal shutdown training links heat to signal failure. Educator removes overheating converter and substitutes kit USB-C to HDMI adapter — bypassing the failing node. Lesson resumes within 60 seconds.',j365:'Thermal shutdown — device hot, then signal disappeared — is well-anchored (Pprime 1.4). Substituting kit dongle for overheating converter is three-step action. REP₃₆₅ = 94.1%. Score 3 maintained.'},
+{id:12,grade:'3–5',gb:'35',sub:'Geography & Maps',fail:"HDCP digital handshake failure from out-of-specification cable — interactive flat panel displays continuous 'unsupported format' error",rep30:100,s30:3,rep365:100,s365:3,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.2,1.0],v365:[0.35,2.0,1.0,1.2,1.4,1.3,1.0],j30:"Module 8 names the HDMI cable swap as prescribed response to HDCP errors. Kit spare 10' HDMI cable eliminates out-of-spec cable; HDCP handshake succeeds. Highest-retention scenario in dataset.",j365:'Cable swap for HDCP failure — Pprime 1.4 + Ccontext 1.3 (front-panel HDMI port) — yields REP₃₆₅ = 100% (capped). Kit HDMI cable is the direct prescribed response. Score 3 maintained identically.'},
+{id:13,grade:'3–5',gb:'35',sub:'Fractions & Decimals',fail:"Wall plate HDMI barrel connector pushed back into drywall cavity — cable cannot seat; flickering blue screen on podium bump",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Recessed wall plate barrel connector is a Hard Architectural Boundary — fixed drywall infrastructure requiring AV technician. Educator submits precise IT ticket and deploys LMS workaround.',j365:'REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). HA Boundary — recessed HDMI connector in drywall. Educator correctly identifies cable-will-not-seat symptom and files precise IT ticket. Score 1 maintained.'},
+{id:14,grade:'3–5',gb:'35',sub:'Life Sciences',fail:"Frayed USB 2.0 cable near strain relief boot on digital microscope — moving stage breaks connection; viewing software freezes and crashes",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:0,kit:false,hab:false,reg:false,gap:null,kitUp:true,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Educator isolates frayed USB cable via Module 8 movement-correlated dropout logic. Kit USB-C to USB-A may substitute if workstation has USB-C port; USB-B at device end introduces uncertainty. Adding USB-A to USB-B cable → Score 3.',j365:'Movement-correlated software crashes are instantly recognisable (Pprime 1.4). Kit cable available but USB-B mismatch introduces uncertainty; workaround is structurally compromised. Score 2 maintained. USB-A to USB-B cable would upgrade to Score 3.'},
+{id:15,grade:'3–5',gb:'35',sub:'United States History',fail:"HDMI audio extractor internal clock synchronization failure — loud high-pitched digital buzzing through speakers; video plays normally",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'OS audio sample rate configuration and HDMI extractor clock synchronization are deep backend parameters not addressed in PD curriculum. Educator can mute buzzing but cannot restore audio.',j365:'Backend parameters (Salign 0.4, Ccomp 0.4, Pprime 1.0). REP₃₆₅ = 3.6%. Same four specialist-domain knowledge failure cluster. Score 0 maintained — educator cannot restore audio at either time interval.'},
+{id:16,grade:'3–5',gb:'35',sub:'Creative Writing',fail:"Physical volume potentiometer knob on classroom mixer wall plate broken off at stem — mic channel locked at near-zero volume",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Broken potentiometer on classroom mixer wall plate is a Hard Architectural Boundary. Educator provides precise fault ID and deploys Module 12 projected-voice pivot.',j365:'REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). HA Boundary — broken stem on fixed wall plate. Educator identifies broken stem precisely and pivots to projected voice. Score 1 maintained identically.'},
+{id:17,grade:'3–5',gb:'35',sub:'Earth Science',fail:"Ultra-short-throw projector mount shifted by physical impact — projected image misaligned 4 inches left; touch points register incorrectly",rep30:35.3,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Protocol',kitUp:false,v30:[0.70,1.2,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'Complete resolution requires vendor-specific IWB calibration utility navigation AND physical UST projector mount realignment with tools. REP₃₀ = 35.3% — neither procedure was included in active Day 2 simulation.',j365:'Vendor-specific IWB calibration + physical UST mount realignment constitute >5-step rigid specialist procedure. REP₃₆₅ = 3.6%, collapsing further from already-failed REP₃₀. Score 0 maintained.'},
+{id:18,grade:'3–5',gb:'35',sub:'Music Theory',fail:"Electronic keyboard line-level output plugged into unattenuated mic-level mixer input — extreme audio distortion and clipping at all volume levels",rep30:17.6,s30:0,rep365:5.8,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.2,0.7],v365:[0.35,0.4,0.4,0.8,1.0,1.3,1.0],j30:'Line-level vs. mic-level impedance mismatch is professional audio engineering not addressed in PD. REP₃₀ = 17.6%. Turning volume down has no effect on clipping caused by impedance mismatch.',j365:'Despite Ccontext 1.3 (visible mixer panel), triple low-value penalty (Salign 0.4, Ccomp 0.4, Ese 0.8) yields REP₃₆₅ = 5.8%. Score 0 maintained.'},
+{id:19,grade:'3–5',gb:'35',sub:'Astronomy',fail:"Media player outputs Dolby Digital 5.1 to stereo soundbar — center channel (narrator voice) entirely omitted; background music plays normally",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'Dolby Digital vs. PCM stereo output format configuration is backend media player setting requiring audio format knowledge. Selective channel loss provides no intuitive diagnostic cue. REP₃₀ = 14.7%.',j365:'Selective channel loss (music plays, narrator absent) with no intuitive cue pointing to surround routing. REP₃₆₅ = 3.6%. Same specialist audio cluster as S15 and S18. Score 0 maintained.'},
+{id:20,grade:'3–5',gb:'35',sub:'Civics & Government',fail:"Extension cord stepped on — IEC power connection at monitor back loosened; monitor loses power mid-vote simulation",rep30:100,s30:3,rep365:100,s365:3,delta:0,pre:2,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.2,1.0],v365:[0.35,2.0,1.0,1.2,1.4,1.3,1.0],j30:'Re-seating IEC power cord is the most elementary physical IT action. Kit spare IEC cord enables immediate swap if existing cord is damaged. 30-day retention risk approaches zero.',j365:'Stepped-on power cord is the most primal power-restoration recognition action (Pprime 1.4, Salign 2.0, Ccontext 1.3 for physical power port). REP₃₆₅ = 100%. Kit IEC cord enables immediate swap. Score 3 maintained with zero retention risk at any interval.'},
+{id:21,grade:'6–8',gb:'68',sub:'Physical Science',fail:"Video distribution matrix switch locks due to internal memory buffer overflow — all 6 student lab bench monitors freeze on static image",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:1,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'All six monitors sharing identical frozen frame identifies distribution node (matrix switch), not source PC. Power cycling the switch clears buffer overflow. Lesson resumes in 60–90 seconds.',j365:'Six identical frozen frames diagnose distribution node via signal-chain logic retained at 365d (Pprime 1.4). Power cycling the switch clears buffer. REP₃₆₅ = 94.1%. Score 3 maintained.'},
+{id:22,grade:'6–8',gb:'68',sub:'Pre-Algebra',fail:"Mechanical VGA push-button switch box internal contact worn on Channel B — document camera image loses red channel when selected",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Educator isolates Channel B as failure node by testing both inputs, then removes switcher and connects doc camera directly to projector VGA input. Bypass eliminates instant-toggle feature.',j365:'Systematic A/B channel testing isolates worn Channel-B contact; bypassing switcher with direct connection is accessible and habituated. REP₃₆₅ = 94.1%. Workaround sacrifices rapid PC-vs-doc-cam toggle. Score 2 maintained.'},
+{id:23,grade:'6–8',gb:'68',sub:'World History',fail:"Apple TV ethernet jack clip broken — unit drops to congested WiFi channel; heavy pixelation, frame drops, eventual connection loss",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:true,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Module 5 'wired Ethernet always better than WiFi' principle directs educator to re-seat ethernet cable. Without locking clip, cable cannot maintain contact under normal use. Adding electrical tape → Score 3.",j365:"'Wired always beats WiFi' is deeply habituated (Pprime 1.4). Educator re-seats cable but without tape, clipless port allows drift. REP₃₆₅ = 94.1%. Kit gap (no securing mechanism) caps at Score 2."},
+{id:24,grade:'6–8',gb:'68',sub:'English Literature',fail:"RS-232 serial control cable has broken ground wire behind wall keypad — wall panel lights confirm success but projector does not power on",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'False success indicator (wall panel LED confirms command sent but projector stays off) is decoded by Module 11 control-path diagnostic. RS-232 cable inside wall is HA Boundary. Precise IT ticket filed.',j365:'False-positive LED decoded by trained control-path diagnostic. HA Boundary: broken RS-232 wire inside wall. REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). Educator files precise "control path failure" ticket. Score 1 maintained.'},
+{id:25,grade:'6–8',gb:'68',sub:'Introduction to Robotics',fail:"50-foot passive HDMI cable through ceiling conduit suffers signal attenuation — projector loses sync every few minutes; blinking black screen with foot traffic",rep30:100,s30:1,rep365:44.8,s365:0,delta:-1,pre:0,kit:false,hab:true,reg:true,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,0.8,1.0,0.8,1.0],j30:'Module 4 HDBaseT reference gives educator vocabulary for precise IT ticket: Passive HDMI in conduit causing sync dropout — active cable or HDBaseT extender required. Lesson continues via LMS code sharing.',j365:'REGRESSION (Score 1→0). Passive-HDMI-at-50-feet distance limit is purely PD-derived (Pprime 1.0). Triple penalty (Rbase 0.35, Ese 0.8, Ccontext 0.8) drops REP₃₆₅ to 44.8%. Without precise trace, IT ticket reads "HDMI problem" — too vague for Score 1.'},
+{id:26,grade:'6–8',gb:'68',sub:'Health & Nutrition',fail:"IR sensor window on wall-mounted TV scratched and clouded — remote control commands fail to register; teacher has no ladder to reach manual controls",rep30:100,s30:1,rep365:62.7,s365:0,delta:-1,pre:1,kit:true,hab:true,reg:true,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,0.8,1.4,0.8,1.0],j30:"Kit AA batteries serve correct diagnostic first step — ruling out battery failure per Module 4's '30% of apparent failures are dead batteries' anchor. Clouded IR sensor identified. Wall-mounted TV without ladder is physical access boundary.",j365:'REGRESSION (Score 1→0). Strong remote-failure anchor (Pprime 1.4) drives battery check but inaccessible wall-mount (Ccontext 0.8) and system alienation (Ese 0.8) combine with halved Rbase to produce REP₃₆₅ = 62.7%. Report degrades to "remote doesn\'t work" — too vague for Score 1.'},
+{id:27,grade:'6–8',gb:'68',sub:'Art History',fail:"Hardware lighting controller's internal relay blown — room lights stuck at 100% brightness; projected artwork completely washed out",rep30:100,s30:3,rep365:100,s365:3,delta:0,pre:2,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Blown lighting controller relay bypassed in three seconds by turning overhead lights off via standard wall switch. No kit item required. Module 11 manual controls principle applies directly.',j365:'Drawing curtains when lights cannot be dimmed is the most deeply habituated classroom projection workaround (Pprime 1.4, Ccontext 1.3). AV display system is fully functional — only lighting automation failed. REP₃₆₅ = 100%. Score 3 maintained.'},
+{id:28,grade:'6–8',gb:'68',sub:'Life Science',fail:"Speaker wire strand at receiver terminals slips loose and touches chassis — short circuit trips 'Protect Mode'; receiver shuts down repeatedly",rep30:35.3,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,1.2,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:"'Protect Mode' is a specialist concept — over-current protection triggered by a speaker wire chassis short. REP₃₀ = 35.3%. Correct fix (inspect speaker wire terminals, fold loose strand) requires electrical knowledge not in PD.",j365:'Speaker wire termination and amplifier protect-mode diagnosis are specialist audio engineering. REP₃₆₅ = 3.6%. The protect-mode cycle provides no intuitive diagnostic cue. Score 0 maintained.'},
+{id:29,grade:'6–8',gb:'68',sub:'Introductory Spanish',fail:"25-foot unpowered USB extension cable exceeds passive length limit — interactive flat panel touch data drops packets; inputs register erratically",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Cable',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'USB 2.0 passive cable maximum length (~5 meters / 16 feet) is a cable specification not covered in PD. REP₃₀ = 14.7%. Single Module 4 table row would convert to Score 1.',j365:'USB signal attenuation over 25-foot unpowered extension is abstract/backend (Salign 0.4, Pprime 1.0). Erratic touch inputs provide no intuitive pointer to cable length. REP₃₆₅ = 3.6%. Score 0 maintained.'},
+{id:30,grade:'6–8',gb:'68',sub:'Earth & Space Science',fail:"Passive (unpowered) video splitter — voltage drop when doc camera activated causes both teacher monitor and projector to go entirely black",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Module 7 'Test One Variable at a Time' logic leads educator to remove passive splitter and connect doc camera directly to projector. Teacher's local monitor goes dark in bypass — structurally compromised teaching station.",j365:"'Both screens black when device added' correctly diagnoses shared distribution node (Pprime 1.4). Direct connection achievable but simultaneous monitor + projector output lost. REP₃₆₅ = 94.1%. Score 2 maintained."},
+{id:31,grade:'9–12',gb:'912',sub:'Algebra II',fail:"Cheap USB wall plate pass-through coupler shaken loose over time — smartboard touch disconnects whenever teacher writes forcefully on board",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:true,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Loose internal USB coupler inside wall plate is a Hard Architectural Boundary. Educator precisely reports: USB wall plate coupler loose; touch disconnects under writing pressure — wall plate requires opening. Adding USB-A to USB-B cable → Score 3.',j365:'Force-correlated touch dropout diagnoses physical USB signal interruption (Pprime 1.4). HA Boundary: internal wall-plate coupler requires AV technician. REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). Score 1 maintained. USB-A to USB-B cable would upgrade to Score 3.'},
+{id:32,grade:'9–12',gb:'912',sub:'Chemistry',fail:"Cheap serial-to-USB converter chip overheats and locks up — projected real-time scale data readout freezes permanently mid-reaction",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Module 7 Step 3 prescribes unplug/replug reset that clears thermal lockup. Cheap converter prone to overheating will likely re-lock during ongoing reaction; experimental data permanently lost.',j365:"Thermal shutdown of a small converter ('it got hot and locked up') is a habituated pattern (Pprime 1.4). Power cycling may restore temporarily but without spare converter, live-data display is unreliable. REP₃₆₅ = 94.1%. Score 2 maintained."},
+{id:33,grade:'9–12',gb:'912',sub:'AP United States History',fail:"Physical toggle switch on lecture capture dock accidentally flipped from 'Line' to 'Mic' input — room mic array audio over-driven; unintelligible for remote viewers",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:0,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Module 9 audio gain staging training ('over-driven signal → check input level settings') directs educator to capture dock rear panel toggle. Flipping Line/Mic toggle restores input sensitivity in seconds.",j365:'A single toggle switch is the lowest possible Ccomp (1.0) with daily-use context (Salign 2.0). Overdriven audio is a recognisable survival anchor (Pprime 1.4). REP₃₆₅ = 94.1%. Score 3 maintained.'},
+{id:34,grade:'9–12',gb:'912',sub:'Biology',fail:"HDMI wall plate jack has broken internal shielding pin — horizontal synchronization lost; projected video displays as rolling skewed green and pink lines",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:true,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Module 8 cable-swap diagnostic using kit spare HDMI cable confirms fault lies in wall plate (both produce same rolling artifact). Precise IT ticket enables targeted repair. HA Boundary: broken shielding pin.',j365:'Rolling/skewed video lines are a recognisable cable-layer failure (Pprime 1.4). Kit HDMI cable swap test confirms wall plate jack is fault. HA Boundary. REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). Score 1 maintained.'},
+{id:35,grade:'9–12',gb:'912',sub:'English Literature',fail:"Damaged XLR cable with phantom power (+48V) enabled — short circuit creates deafening continuous electrical hum through classroom speakers",rep30:17.6,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.2,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'Phantom power management over damaged XLR cables is the most technically dangerous failure mode in the dataset. Incorrect intervention can damage equipment. REP₃₀ = 17.6%. Module 9 needs phantom power row.',j365:'Phantom power (+48V) interaction with damaged XLR cable producing continuous hum is specialist audio engineering. REP₃₆₅ = 3.6%. Score 0 maintained — educator cannot diagnose or resolve the phantom-power/damaged-cable causal chain.'},
+{id:36,grade:'9–12',gb:'912',sub:'Physics',fail:"High-speed camera interface outputs 1080p @ 120Hz — LCD monitor rejects unsupported refresh rate; 'Input Out of Range' error on blank screen",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:0,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"'Input Out of Range' is first-degree extension of Module 8 resolution mismatch diagnostic. OS Display Settings pathway (Advanced → Refresh Rate → change 120Hz to 60Hz) is one menu level deeper but within trained interface.",j365:"'Input Out of Range' is universally recognised display error with a universally known fix (Pprime 1.4). Interface box settings change requires no kit item. REP₃₆₅ = 94.1%. Score 3 maintained."},
+{id:37,grade:'9–12',gb:'912',sub:'Introduction to Engineering',fail:"Heavy DisplayPort cable lacks locking clip latch — partially backs out of graphics card port due to gravity; secondary display cycles on/off with foot traffic",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Vibration-correlated display cycling maps directly to Module 8: 'Signal dropout → failing cable → swap immediately → use spare HDMI from kit.' Kit 10' HDMI cable routes secondary display via HDMI output port, bypassing latch-less DisplayPort.",j365:'Display cycling on/off is a strongly habituated "cable connection issue" survival anchor (Pprime 1.4). Re-seating DisplayPort cable restores secondary display for lesson period. REP₃₆₅ = 94.1%. Score 3 maintained.'},
+{id:38,grade:'9–12',gb:'912',sub:'Digital Art & Media',fail:"HDMI matrix switcher fails to read EDID from projector — laptop re-detects display layout on every input change; 10-second blackout per switch",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Protocol',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'EDID (Extended Display Identification Data) handshaking is a display protocol layer entirely outside PD curriculum. REP₃₀ = 14.7%. Educator connects either tablet or doc camera but never switches mid-lesson.',j365:'EDID configuration is backend AV parameter requiring specialist knowledge (Salign 0.4, Pprime 1.0). REP₃₆₅ = 3.6%. Score 0 maintained — 10-second blackout on every input switch with no trained diagnostic path.'},
+{id:39,grade:'9–12',gb:'912',sub:'World Geography',fail:"IR extender eyeball detached from display bezel adhesive — hanging upside down facing wall; remote control commands fail to register throughout class",rep30:100,s30:2,rep365:94.1,s365:2,delta:0,pre:1,kit:true,hab:false,reg:false,gap:null,kitUp:true,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:"Kit AA batteries rule out battery failure per Module 4's anchor. Educator physically redirects dangling IR extender eyeball to face outward. Fix works but requires manual positioning per remote command. Adding electrical tape → Score 3.",j365:'Remote failure prompts checking IR receiver/extender — habituated troubleshooting (Pprime 1.4). IR extender re-pointed by hand; without adhesive may slip during class. REP₃₆₅ = 94.1%. Score 2 maintained. Electrical tape would upgrade to Score 3.'},
+{id:40,grade:'9–12',gb:'912',sub:'Choral Music',fail:"Auxiliary output jack on mixing console physically loose from internal PCB — moving master volume slider breaks connection; floor monitors cut out entirely",rep30:42.3,s30:0,rep365:5.8,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Audio',kitUp:false,v30:[0.70,1.2,0.6,1.0,1.0,1.2,0.7],v365:[0.35,0.4,0.4,0.8,1.0,1.3,1.0],j30:'Loose auxiliary output jack desoldered at PCB mounting point inside mixing console is professional audio maintenance requiring console disassembly. REP₃₀ = 42.3%. Floor monitors inaudible from stage.',j365:'Mechanically loose auxiliary jack (cold solder joint) on mixing console is specialist audio engineering. Despite Ccontext 1.3, REP₃₆₅ = 5.8% — technical knowledge layer overwhelms physical context boost. Score 0 maintained.'},
+{id:41,grade:'Higher Ed',gb:'he',sub:'Organic Chemistry Lecture',fail:"AV rack internal cooling fan failure — central HDMI matrix switch overheats and freezes; all three lecture hall projectors shut off simultaneously",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Simultaneous shutdown of all three projectors identifies shared distribution infrastructure (AV rack matrix switch) as failure point — Module 4 signal chain inference. Locked AV rack is HA Boundary. LMS workaround deployed for 300+ students.',j365:'All three projectors failing simultaneously from podium is maximally visible (Ccontext 1.3) and diagnostic (Pprime 1.4). REP₃₆₅ = 100%. HA Boundary: cooling fan is rack infrastructure. Educator pivots to board/handout and files precise thermal-shutdown ticket. Score 1 maintained.'},
+{id:42,grade:'Higher Ed',gb:'he',sub:'Introductory Physics',fail:"RF intermodulation from adjacent lecture hall wireless mic — loud static bursts and cross-talk audio overlapping professor's voice; 300-student lecture hall",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'RF',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:"RF intermodulation frequency management is specialist wireless audio engineering. Professor's voice cannot carry unaided to back of 300-seat hall. REP₃₀ = 14.7%. RF channel change procedure needed.",j365:'RF intermodulation from co-channel device in adjacent hall — wireless engineering concept with no educator-level resolution path. REP₃₆₅ = 3.6%. Score 0 maintained. Highest-consequence scenario in dataset.'},
+{id:43,grade:'Higher Ed',gb:'he',sub:'Advanced Macroeconomics',fail:"Physical toggle switch on active podium video switcher box mechanically sticks halfway — both screens display flickering colored static snow",rep30:100,s30:2,rep365:100,s365:2,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,1.3,1.0],j30:'Both screens displaying identical colored static points to distribution device (video switcher), not individual displays — Module 4 signal chain logic. Kit HDMI cable bypasses stuck switcher by connecting podium PC directly to one screen.',j365:'Both displays showing static snow when using switcher correctly diagnoses intermediate device (Pprime 1.4). Kit HDMI enables direct bypass. Loss of dual-display comparative layout forces Score 2. REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). Score 2 maintained.'},
+{id:44,grade:'Higher Ed',gb:'he',sub:'Introduction to Film Studies',fail:"TOSLINK optical audio cable bent past maximum bend radius behind equipment rack — internal fiber core snapped; video plays, room in complete silence",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:"Module 9 'video playing but complete silence = audio signal path break' training directs educator to trace optical audio path. Snapped TOSLINK fiber is HA Boundary — no optical cable in kit. Precise IT ticket: 'TOSLINK fiber core snapped behind rack.'",j365:'Absolute silence with normal video clearly diagnoses audio-path cable. HA Boundary: snapped optical fiber embedded in equipment rack. REP₃₆₅ = 100% (Pprime 1.4 + Ccontext 1.3). Educator pivots to discussing mise-en-scène from memory. Score 1 maintained.'},
+{id:45,grade:'Higher Ed',gb:'he',sub:'Computer Science I',fail:"Bent USB-C connector pin on podium breakout cable — Alt-Mode video negotiation fails; laptop charges successfully but no video ever reaches projector",rep30:100,s30:3,rep365:100,s365:3,delta:0,pre:0,kit:true,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.2,1.0],v365:[0.35,2.0,1.0,1.2,1.4,1.3,1.0],j30:"Module 8 Scenario B Step 5 was designed for this: 'Adapters fail silently — no error message, just no image. This is the #1 cause of laptop connection failures. Always carry a spare.' Kit USB-C to HDMI adapter bypasses faulty podium dock connector entirely.",j365:"'Charges but no video' is a precise diagnostic — USB-C Alt-Mode video negotiation failed, power pins intact but data/alt-mode pins are not (Pprime 1.4). Kit dongle is prescribed bypass. REP₃₆₅ = 100%. Score 3 maintained."},
+{id:46,grade:'Higher Ed',gb:'he',sub:'Human Anatomy Lecture',fail:"HDMI distribution amp 5V DC wall wart transformer comes loose from outlet — all student-facing confidence monitors lose video simultaneously",rep30:100,s30:3,rep365:94.1,s365:3,delta:0,pre:2,kit:false,hab:false,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.3,1.2,1.0,1.0],v365:[0.35,2.0,1.0,1.2,1.4,0.8,1.0],j30:'Re-plugging the loose 5V DC wall wart is a three-second intervention. All confidence monitors restore immediately. 30-day retention risk approaches zero. Module 7 Step 3 is prescribing anchor.',j365:'Power supply fallen from outlet is the most primal power-restoration recognition action (Pprime 1.4, Salign 2.0). Fix is re-seating existing wall wart — one-step, no kit item. All student monitors restore immediately. REP₃₆₅ = 94.1%. Score 3 maintained.'},
+{id:47,grade:'Higher Ed',gb:'he',sub:'Civil Engineering',fail:"Power surge resets VGA-to-HDMI scaler box to legacy resolution — modern podium projector cannot process; 'Unsupported Video Format' error displayed",rep30:17.6,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Protocol',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.2,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:"VGA-to-HDMI hardware scaler box has own independent output resolution menu — completely different from OS Display Settings that Module 8 trains. 'Unsupported Video Format' creates false mapping to Module 8 resolution fix (wrong remediation layer).",j365:'Hardware resolution scaler configuration parameters are backend specialist knowledge (Salign 0.4, Ccomp 0.4). REP₃₆₅ = 3.6%. Score 0 maintained — "Unsupported Video Format" provides no intuitive fix path at 365 days.'},
+{id:48,grade:'Higher Ed',gb:'he',sub:'Introduction to Journalism',fail:"DMX lighting control cable terminating resistor plug has fallen out — signal reflections down control chain; studio lights flash erratically, ignore presets",rep30:14.7,s30:0,rep365:3.6,s365:0,delta:0,pre:0,kit:false,hab:false,reg:false,gap:'Broadcast',kitUp:false,v30:[0.70,0.5,0.6,1.0,1.0,1.0,0.7],v365:[0.35,0.4,0.4,0.8,1.0,0.8,1.0],j30:'DMX-512 signal termination (120-ohm resistor at cable chain endpoint) is professional broadcast lighting engineering — most specialized domain in the 50-scenario dataset. REP₃₀ = 14.7%. Requires dedicated production module.',j365:'DMX termination and signal reflection are specialist broadcast engineering concepts. Flashing/erratic lights provide no intuitive cue pointing to missing terminator. REP₃₆₅ = 3.6%. Score 0 maintained — dedicated DMX basics module required.'},
+{id:49,grade:'Higher Ed',gb:'he',sub:'Environmental Studies',fail:"Mobile podium umbilical floor box cable bundle stepped on during repositioning — internal coaxial video lines crushed; color bleeding and vertical rolling lines on projection",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.0,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Module 8 rolling/color artifact diagnostic identifies cable integrity failure; onset timing (immediately when stepped on) locates physical damage. Crushed umbilical floor box is HA Boundary — cable replacement required.',j365:'Stepped-on cord causing immediate video degradation is a recognisable physical-event-to-symptom chain (Pprime 1.4). Umbilical floor box connection IS the primary visible connection at the mobile podium (Ccontext 1.3). HA Boundary: crushed coaxial lines. REP₃₆₅ = 100%. Score 1 maintained.'},
+{id:50,grade:'Higher Ed',gb:'he',sub:'World History Survey',fail:"Internal XLR conductor sheared at solder terminal inside podium gooseneck microphone housing — complete audio break; no sound to house speakers",rep30:100,s30:1,rep365:100,s365:1,delta:0,pre:0,kit:false,hab:true,reg:false,gap:null,kitUp:false,v30:[0.70,1.2,1.0,1.0,1.2,1.2,1.0],v365:[0.35,2.0,1.0,0.8,1.4,1.3,1.0],j30:'Sheared XLR solder terminal is the rubric\'s own explicit HA Boundary reference case: "broken podium gooseneck mic lines." Compounding fault (gain trim at zero in AV rack) adds inaccessible infrastructure layer. Dual-fault IT ticket filed; professor projects voice.',j365:'Microphone silence is THE most habituated AV failure anchor (Pprime 1.4, Salign 2.0). Gooseneck mic IS on primary podium (Ccontext 1.3). HA Boundary: broken XLR solder joint — canonical reference case in rubric. REP₃₆₅ = 100%. Score 1 maintained identically.'}
+];
+
+// ═══════════════ HELPERS ═══════════════
+const gradeClass = (gb) => ({k2:'gk2',35:'g35',68:'g68',912:'g912',he:'ghe'}[gb]||'');
+const gradeName = (gb) => ({'k2':'K–2','35':'3–5','68':'6–8','912':'9–12','he':'Higher Ed'}[gb]||gb);
+const scoreClass = (s) => ['sb0','sb1','sb2','sb3'][s]||'';
+const repClass = (r) => r>=75?'rv-p':r>=50?'rv-m':'rv-f';
+const gapClass = (g) => g?({'RF':'gr-rf','Audio':'gr-au','Cable':'gr-ca','Protocol':'gr-pr','Broadcast':'gr-bc'}[g]||''):'';
+const gapLabel = (g) => g?({'RF':'RF/Wireless','Audio':'Specialist Audio','Cable':'Cable Spec','Protocol':'Backend Protocol','Broadcast':'Broadcast'}[g]||g):'';
+function scoreLabel(s){return['Total Abandonment','Minor Mitigation','Diminished Workaround','Full Resolution'][s]||''}
+function varColor(i,val,model){
+  // 0=Rbase,1=Salign,2=Ccomp,3=Ese,4=Pprime,5=Ccontext,6=ERP
+  if(model==='30'){
+    if(i===0) return 'vv-mid';
+    if(val>=1.2||val>=1.3) return 'vv-hi';
+    if(val<=0.5||val<=0.6) return 'vv-lo';
+    return 'vv-nm';
+  } else {
+    if(i===0) return val<=0.35?'vv-lo':'vv-nm';
+    if(val>=1.4||val>=2.0||val>=1.3) return 'vv-hi';
+    if(val<=0.4||val<=0.5||val<=0.8) return 'vv-lo';
+    return 'vv-nm';
+  }
+}
+
+// ═══════════════ STATE ═══════════════
+let activeGrades = new Set(['k2','35','68','912','he']);
+let activeScores = new Set([0,1,2,3]);
+let regOnly = false;
+let searchTerm = '';
+
+// ═══════════════ RENDER TABLE ═══════════════
+function renderTable(){
+  const tbody = document.getElementById('scen-tbody');
+  tbody.innerHTML = '';
+  let count = 0;
+
+  SCENARIOS.forEach(s=>{
+    // Filter
+    if(!activeGrades.has(s.gb)) return;
+    const sc365 = s.s365;
+    if(!activeScores.has(sc365)) return;
+    if(regOnly && !s.reg) return;
+    if(searchTerm){
+      const hay = (s.sub+' '+s.fail).toLowerCase();
+      if(!hay.includes(searchTerm)) return;
+    }
+    count++;
+
+    // Main row
+    const tr = document.createElement('tr');
+    tr.className = 'sr'+(s.reg?' rr':'');
+    tr.id = 'row-'+s.id;
+    tr.innerHTML = `
+      <td><div class="snum"><span class="exp-ic">▶</span>${String(s.id).padStart(2,'0')}</div></td>
+      <td><span class="gbadge ${gradeClass(s.gb)}">${gradeName(s.gb)}</span></td>
+      <td><div class="sname">${s.sub}</div></td>
+      <td><div class="sfail">${s.fail}</div></td>
+      <td class="c"><span class="rep-v ${s.rep30>=75?'rv-p':'rv-f'}">${s.rep30}%</span></td>
+      <td class="c"><span class="sbadge ${scoreClass(s.s30)}">${s.s30}</span></td>
+      <td class="c"><span class="rep-v ${repClass(s.rep365)}">${s.rep365}%</span></td>
+      <td class="c"><span class="sbadge ${scoreClass(s.s365)}">${s.s365}</span></td>
+      <td class="c"><span class="dlt ${s.delta<0?'dlt-n':s.delta===0?'dlt-z':'dlt-p'}">${s.delta<0?s.delta:s.delta===0?'—':'+'+s.delta}</span></td>
+      <td class="c"><span class="rep-v rv-p" style="color:var(--muted)">${s.pre}</span></td>
+      <td>${buildTags(s)}</td>
+    `;
+    tbody.appendChild(tr);
+
+    // Detail row
+    const dtr = document.createElement('tr');
+    dtr.className = 'detail-tr';
+    dtr.id = 'det-'+s.id;
+    dtr.innerHTML = `<td colspan="11">${buildDetail(s)}</td>`;
+    tbody.appendChild(dtr);
+
+    // Click handler
+    tr.addEventListener('click',()=>toggleDetail(s.id));
+  });
+
+  document.getElementById('count-label').textContent = count+' of 50';
+  document.getElementById('no-results').style.display = count===0?'block':'none';
+}
+
+function buildTags(s){
+  let tags='';
+  if(s.reg) tags+=`<span class="reg-badge">◀ REG</span> `;
+  if(s.hab) tags+=`<span class="hab-tag">HAB</span> `;
+  if(s.gap) tags+=`<span class="gap-tag ${gapClass(s.gap)}">${s.gap}</span> `;
+  if(s.kitUp) tags+=`<span class="kit-tag">KIT+</span> `;
+  return tags||`<span style="color:var(--dim);font-size:10px">—</span>`;
+}
+
+function buildDetail(s){
+  let v30rows='', v365rows='';
+  s.v30.forEach((v,i)=>{
+    v30rows+=`<tr><td class="vn">${V[i]}</td><td class="vv ${varColor(i,v,'30')}">${v.toFixed(2)}</td></tr>`;
+  });
+  s.v365.forEach((v,i)=>{
+    v365rows+=`<tr><td class="vn">${V[i]}</td><td class="vv ${varColor(i,v,'365')}">${v.toFixed(2)}</td></tr>`;
+  });
+  const thr30 = s.rep30>=75?`<span class="thr-pill tp-p">PASSED</span>`:`<span class="thr-pill tp-f">FAILED</span>`;
+  const thr365 = s.rep365>=75?`<span class="thr-pill tp-p">PASSED</span>`:`<span class="thr-pill tp-f">FAILED</span>`;
+  let tagsRow='';
+  if(s.reg) tagsRow+=`<span class="reg-badge">◀ REGRESSION — Score ${s.s30}→${s.s365}</span> `;
+  if(s.hab) tagsRow+=`<span class="hab-tag">HARD ARCH BOUNDARY</span> `;
+  if(s.gap) tagsRow+=`<span class="gap-tag ${gapClass(s.gap)}">${gapLabel(s.gap)} Curriculum Gap</span> `;
+  if(s.kitUp) tagsRow+=`<span class="kit-tag">Kit Expansion → Score 3</span> `;
+
+  return `<div class="det-grid">
+  <div>
+    <div class="det-sec-title">Failure Description</div>
+    <div class="det-fail">${s.fail}</div>
+    <div class="det-sec-title">PD Model (30-Day) Justification</div>
+    <div class="det-text">${s.j30}</div>
+    <div style="margin-top:12px"><div class="det-sec-title">Full Course (365-Day) Justification</div>
+    <div class="det-text">${s.j365}</div></div>
+    ${tagsRow?`<div class="det-tags" style="margin-top:12px">${tagsRow}</div>`:''}
+  </div>
+  <div>
+    <div class="det-sec-title" style="color:var(--accent)">REP₃₀ Variables</div>
+    <table class="mini-table"><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody>${v30rows}</tbody></table>
+    <div class="rep-result-row"><div><div class="rep-result-label">REP₃₀ Result</div><div class="rep-result-val ${s.rep30>=75?'':'rv-f'}" style="${s.rep30>=75?'color:var(--c3)':'color:var(--c0)'}">${s.rep30}%</div></div><div style="text-align:right">${thr30}<br><div style="margin-top:4px;font-family:var(--mono);font-size:11px;color:var(--muted)">Pre: ${s.pre} → Post: ${s.s30}</div></div></div>
+  </div>
+  <div>
+    <div class="det-sec-title" style="color:var(--purple)">REP₃₆₅ Variables</div>
+    <table class="mini-table"><thead><tr><th>Variable</th><th>Value</th></tr></thead><tbody>${v365rows}</tbody></table>
+    <div class="rep-result-row"><div><div class="rep-result-label">REP₃₆₅ Result</div><div class="rep-result-val" style="${s.rep365>=75?'color:var(--c3)':'color:var(--c0)'}">${s.rep365}%</div></div><div style="text-align:right">${thr365}<br><div style="margin-top:4px;font-family:var(--mono);font-size:11px;color:var(--muted)">S₃₀:${s.s30} → S₃₆₅:${s.s365} (Δ${s.delta===0?'0':s.delta})</div></div></div>
+  </div>
+</div>`;
+}
+
+function toggleDetail(id){
+  const dtr = document.getElementById('det-'+id);
+  const tr = document.getElementById('row-'+id);
+  const isOpen = dtr.classList.contains('open');
+  dtr.classList.toggle('open',!isOpen);
+  tr.classList.toggle('open-r',!isOpen);
+}
+
+// ═══════════════ TAB SWITCHING ═══════════════
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-'+btn.dataset.tab).classList.add('active');
+  });
+});
+
+// ═══════════════ FILTERS ═══════════════
+document.querySelectorAll('#grade-filters .chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    const g = chip.dataset.grade;
+    if(activeGrades.has(g)){activeGrades.delete(g);chip.classList.remove('on');}
+    else{activeGrades.add(g);chip.classList.add('on');}
+    renderTable();
+  });
+});
+
+document.querySelectorAll('#score-filters .chip').forEach(chip=>{
+  chip.addEventListener('click',()=>{
+    const sc = parseInt(chip.dataset.score);
+    if(activeScores.has(sc)){
+      if(activeScores.size===1) return; // keep at least one
+      activeScores.delete(sc);chip.classList.remove('on');
+    }else{activeScores.add(sc);chip.classList.add('on');}
+    renderTable();
+  });
+});
+
+document.getElementById('reg-filter').addEventListener('click',function(){
+  regOnly = !regOnly;
+  this.classList.toggle('on',regOnly);
+  renderTable();
+});
+
+document.getElementById('scen-search').addEventListener('input',function(){
+  searchTerm = this.value.toLowerCase().trim();
+  renderTable();
+});
+
+// ═══════════════ INIT ═══════════════
+renderTable();
+</script>
+</body>
+</html>
