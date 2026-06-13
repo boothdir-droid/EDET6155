@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classroom AV Essentials Resources</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #3b82f6;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #334155;
+            --text-light: #64748b;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 1.5rem;
+        }
+
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            font-size: 2.25rem;
+        }
+
+        .subtitle {
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--secondary-color);
+            padding-left: 0.75rem;
+        }
+
+        .resource-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.25rem;
+            margin-bottom: 2.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .resource-grid.slides {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .card {
+            background: var(--card-bg);
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .icon {
+            font-size: 2rem;
+            background: #eff6ff;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+        }
+
+        .card-text h3 {
+            margin: 0 0 0.25rem 0;
+            font-size: 1.1rem;
+            color: var(--text-color);
+        }
+
+        .card-text p {
+            margin: 0;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 6px;
+            font-weight: 500;
+            font-size: 0.9rem;
+            transition: background-color 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn:hover {
+            background-color: var(--secondary-color);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 4rem;
+            font-size: 0.875rem;
+            color: var(--text-light);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <header>
+            <h1>Classroom AV Essentials</h1>
+            <p class="subtitle">Access Professional Development resources, handbooks, and presentation materials below.</p>
+        </header>
+
+        <main>
+            <!-- Core Resource: Handbook -->
+            <h2 class="section-title">Core Resource</h2>
+            <div class="resource-grid">
+                <div class="card">
+                    <div class="card-content">
+                        <span class="icon">📖</span>
+                        <div class="card-text">
+                            <h3>2-Day PD Participant Handbook</h3>
+                            <p>Complete guide and reference material for the training course.</p>
+                        </div>
+                    </div>
+                    <a href="Classroom AV Essentials – 2-Day PD Participant Handbook.pdf" class="btn" target="_blank">Open PDF</a>
+                </div>
+            </div>
+
+            <!-- Presentation Slideshows -->
+            <h2 class="section-title">Presentation Slideshows</h2>
+            <div class="resource-grid slides">
+                <!-- Day 1 -->
+                <div class="card">
+                    <div class="card-content">
+                        <span class="icon">🖥️</span>
+                        <div class="card-text">
+                            <h3>Day 1: AV Fundamentals</h3>
+                            <p>Introduction to classroom AV systems and basic operations.</p>
+                        </div>
+                    </div>
+                    <a href="Classroom AV Essentials – Day 1- AV Fundamentals.pdf" class="btn" target="_blank">Open Slides</a>
+                </div>
+
+                <!-- Day 2 -->
+                <div class="card">
+                    <div class="card-content">
+                        <span class="icon">🔧</span>
+                        <div class="card-text">
+                            <h3>Day 2: Troubleshooting &amp; Continuity</h3>
+                            <p>Advanced diagnostic steps and maintaining technical uptime.</p>
+                        </div>
+                    </div>
+                    <a href="Classroom AV Essentials – Day 2- Troubleshooting and Continuity.pdf" class="btn" target="_blank">Open Slides</a>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; Classroom AV Essentials Training Program</p>
+        </footer>
+    </div>
+
+</body>
+</html>
